@@ -1,6 +1,5 @@
-package com.revakovsky.thenytimesbooks.ui.theme
+package com.revakovsky.thenytimesbooks.presentation.ui.theme
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
@@ -20,7 +19,7 @@ data class Dimens(
 
 val LocalDimens = compositionLocalOf { Dimens() }
 
-val MaterialTheme.dimens: Dimens
+val dimens: Dimens
     @Composable
     @ReadOnlyComposable
     get() = LocalDimens.current

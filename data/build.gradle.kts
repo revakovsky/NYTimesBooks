@@ -26,8 +26,8 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.giphy.com/v1/gifs/\"")
-            buildConfigField(type = "String", name = "API_KEY", value = "\"3FQrv9Cok9ki6pwej7g8G0l0LyJqQwV9\"")
+            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.nytimes.com/svc/books/v3/\"")
+            buildConfigField(type = "String", name = "API_KEY", value = "\"JNd7LkmFEYe6WelU5YG2FwZAXAeGCAH4\"")
         }
         release {
             isMinifyEnabled = false
@@ -36,8 +36,8 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.giphy.com/v1/gifs/\"")
-            buildConfigField(type = "String", name = "API_KEY", value = "\"3FQrv9Cok9ki6pwej7g8G0l0LyJqQwV9\"")
+            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.nytimes.com/svc/books/v3/\"")
+            buildConfigField(type = "String", name = "API_KEY", value = "\"JNd7LkmFEYe6WelU5YG2FwZAXAeGCAH4\"")
         }
     }
     compileOptions {

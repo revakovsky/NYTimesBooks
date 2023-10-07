@@ -1,4 +1,4 @@
-package com.revakovsky.thenytimesbooks.ui.theme
+package com.revakovsky.thenytimesbooks.presentation.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme

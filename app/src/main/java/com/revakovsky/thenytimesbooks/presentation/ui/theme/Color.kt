@@ -1,4 +1,4 @@
-package com.revakovsky.thenytimesbooks.ui.theme
+package com.revakovsky.thenytimesbooks.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
