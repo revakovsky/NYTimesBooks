@@ -83,9 +83,6 @@ dependencies {
     implementation(libs.dagger2)
     ksp(libs.dagger2.compiler)
 
-    // Lottie animations
-    implementation(libs.lottie)
-
     // Swipe Refresh
     implementation(libs.swipeRefresh)
 
