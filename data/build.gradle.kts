@@ -1,23 +1,20 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
 }
 
 android {
-    namespace = libs.versions.name.app.get()
+    namespace = libs.versions.name.data.get()
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = libs.versions.name.app.get()
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = libs.versions.versionCode.get().toInt()
-        versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = libs.versions.testInstrumentationRunner.get()
-        vectorDrawables {
-            useSupportLibrary = true
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
 
@@ -28,6 +25,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.giphy.com/v1/gifs/\"")
+            buildConfigField(type = "String", name = "API_KEY", value = "\"3FQrv9Cok9ki6pwej7g8G0l0LyJqQwV9\"")
         }
         release {
             isMinifyEnabled = false
@@ -35,6 +35,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.giphy.com/v1/gifs/\"")
+            buildConfigField(type = "String", name = "API_KEY", value = "\"3FQrv9Cok9ki6pwej7g8G0l0LyJqQwV9\"")
         }
     }
     compileOptions {
@@ -45,18 +48,7 @@ android {
         jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    kotlin {
-        jvmToolchain(8)
+        buildConfig = true
     }
 }
 
@@ -64,17 +56,18 @@ dependencies {
 
     // Modules
     implementation(project(path = ":domain"))
-    implementation(project(path = ":data"))
 
     // Android
-    implementation(libs.bundles.androidCore)
+    implementation(libs.android.coreKtx)
 
-    // Compose
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.composeUi)
+    // Room
+    implementation(libs.bundles.room)
+    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 
-    // Lifecycle
-    implementation(libs.bundles.lifecycle)
+    // Network
+    implementation(libs.bundles.okHttp)
+    implementation(libs.bundles.retrofit2)
 
     // Coroutines
     implementation(libs.bundles.coroutines)
@@ -82,14 +75,5 @@ dependencies {
     // Dagger2
     implementation(libs.dagger2)
     ksp(libs.dagger2.compiler)
-
-    // Lottie animations
-    implementation(libs.lottie)
-
-    // Swipe Refresh
-    implementation(libs.swipeRefresh)
-
-    // Coil
-    implementation(libs.coil.compose)
 
 }

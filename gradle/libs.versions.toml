@@ -13,8 +13,8 @@ jvmTarget                   = "1.8"
 
 # Module names
 name-app                    = "com.revakovsky.thenytimesbooks"
-name-domain                 = "com.revakovskyi.domain"
-name-data                   = "com.revakovskyi.data"
+name-domain                 = "com.revakovsky.domain"
+name-data                   = "com.revakovsky.data"
 
 # Plugins
 ver_AndroidApplication      = "8.1.2"
