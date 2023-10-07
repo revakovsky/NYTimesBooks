@@ -1,0 +1,197 @@
+[versions]
+
+# Config
+compileSdk                  = "34"
+minSdk                      = "26"
+targetSdk                   = "33"
+versionCode                 = "1"
+versionName                 = "1.0"
+
+testInstrumentationRunner   = "androidx.test.runner.AndroidJUnitRunner"
+kotlinCompilerExtension     = "1.4.3"
+jvmTarget                   = "1.8"
+
+# Module names
+name-app                    = "com.revakovsky.thenytimesbooks"
+name-domain                 = "com.revakovskyi.domain"
+name-data                   = "com.revakovskyi.data"
+
+# Plugins
+ver_AndroidApplication      = "8.1.2"
+ver_KotlinJvm               = "1.8.10"
+ver_KotlinAndroid           = "1.8.10"
+ver_KotlinKsp               = "1.8.0-1.0.9"
+
+# Android
+ver_CoreKtx                 = "1.9.0"
+ver_Appcompat               = "1.6.1"
+ver_Material                = "1.10.0"
+
+# Compose
+ver_ActivityCompose         = "1.7.2"
+ver_ComposeBom              = "2023.10.00"
+ver_NavigationCompose       = "2.5.3"
+
+# Tests
+ver_JUnit                   = "4.13.2"
+ver_AndroidxTestExtJUnit    = "1.1.5"
+ver_EspressoCore            = "3.5.1"
+
+# Lifecycle
+ver_LifecycleRuntimeKtx     = "2.6.2"
+ver_LifecycleViewmodel      = "2.6.2"
+
+# Coroutines
+var_Coroutines              = "1.7.3"
+
+# Dagger2
+ver_Dagger2                 = "2.48"
+ver_Inject                  = "1"
+
+# Room
+ver_Room                    = "2.5.2"
+
+# Networking
+ver_OkHttpBom               = "4.11.0"
+ver_Retrofit2               = "2.9.0"
+ver_Gson                    = "2.10.1"
+
+#Lottie animations
+ver_Lottie                  = "6.0.1"
+
+# Swipe Refresh
+ver_SwipeRefresh            = "0.24.13-rc"
+
+# Coil
+ver_Coil                    = "2.4.0"
+
+# --------------------------------------------------------------------------------------------------
+
+
+[plugins]
+
+# Android
+android-application        = { id = "com.android.application", version.ref = "ver_AndroidApplication" }
+android-library            = { id = "com.android.library", version.ref = "ver_AndroidApplication" }
+
+# Kotlin
+kotlin-android             = { id = "org.jetbrains.kotlin.android", version.ref = "ver_KotlinAndroid" }
+kotlin-ksp                 = { id = "com.google.devtools.ksp", version.ref = "ver_KotlinKsp" }
+kotlin-jvm                 = { id = "org.jetbrains.kotlin.jvm", version.ref = "ver_KotlinJvm" }
+
+# --------------------------------------------------------------------------------------------------
+
+
+[libraries]
+
+# Android
+android-coreKtx            = { group = "androidx.core", name = "core-ktx", version.ref = "ver_CoreKtx" }
+android-appcompat          = { group = "androidx.appcompat", name = "appcompat", version.ref = "ver_Appcompat" }
+android-material           = { group = "com.google.android.material", name = "material", version.ref = "ver_Material" }
+
+# Compose
+compose-bom                = { group = "androidx.compose", name = "compose-bom", version.ref = "ver_ComposeBom" }
+compose-activityCompose    = { group = "androidx.activity", name = "activity-compose", version.ref = "ver_ActivityCompose" }
+compose-ui                 = { group = "androidx.compose.ui", name = "ui" }
+compose-uiGraphics         = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-material3          = { group = "androidx.compose.material3", name = "material3" }
+compose-uiToolingPreview   = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-navigationCompose  = { group = "androidx.navigation", name = "navigation-compose", version.ref = "ver_NavigationCompose" }
+
+# Test
+tests-androidxExtJunit     = { group = "androidx.test.ext", name = "junit", version.ref = "ver_AndroidxTestExtJUnit" }
+tests-espressoCore         = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "ver_EspressoCore" }
+tests-uiTestJunit4         = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+tests-junit                = { group = "junit", name = "junit", version.ref = "ver_JUnit" }
+tests-uiTooling            = { group = "androidx.compose.ui", name = "ui-tooling" }
+tests-uiTestManifest       = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+
+# Lifecycle
+lifecycle-runtimeKtx       = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "ver_LifecycleRuntimeKtx" }
+lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "ver_LifecycleViewmodel" }
+lifecycle-runtimeCompose   = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "ver_LifecycleViewmodel" }
+
+# Coroutines
+coroutines-android         = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "var_Coroutines" }
+coroutines-core            = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "var_Coroutines" }
+
+# Dagger2
+dagger2                    = { group = "com.google.dagger", name = "dagger-android-support", version.ref = "ver_Dagger2" }
+dagger2-compiler           = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "ver_Dagger2" }
+inject                     = { group = "javax.inject", name = "javax.inject", version.ref = "ver_Inject" }
+
+# Room
+room-runtime               = { module = "androidx.room:room-runtime", version.ref = "ver_Room" }
+room-ktx                   = { module = "androidx.room:room-ktx", version.ref = "ver_Room" }
+room-compiler              = { module = "androidx.room:room-compiler", version.ref = "ver_Room" }
+
+# Networking
+network-okHttpBom          = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "ver_OkHttpBom" }
+network-okHttp             = { module = "com.squareup.okhttp3:okhttp" }
+network-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
+network-retrofit2          = { module = "com.squareup.retrofit2:retrofit", version.ref = "ver_Retrofit2" }
+network-converterGson      = { module = "com.squareup.retrofit2:converter-gson", version.ref = "ver_Retrofit2" }
+network-gson               = { module = "com.google.code.gson:gson", version.ref = "ver_Gson" }
+
+#Lottie animations
+lottie                     = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "ver_Lottie" }
+
+# Swipe Refresh
+swipeRefresh               = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "ver_SwipeRefresh" }
+
+# Coil
+coil-compose               = { group = "io.coil-kt", name = "coil-compose", version.ref = "ver_Coil" }
+
+# --------------------------------------------------------------------------------------------------
+
+
+[bundles]
+
+androidCore = [
+    "android-coreKtx",
+    "android-appcompat",
+    "android-material",
+]
+
+composeUi = [
+    "compose-activityCompose",
+    "compose-ui",
+    "compose-uiGraphics",
+    "compose-material3",
+    "compose-uiToolingPreview",
+    "compose-navigationCompose"
+]
+
+tests = [
+    "tests-androidxExtJunit",
+    "tests-espressoCore",
+    "tests-uiTestJunit4"
+]
+
+lifecycle = [
+    "lifecycle-runtimeKtx",
+    "lifecycle-viewModelCompose",
+    "lifecycle-runtimeCompose"
+]
+
+okHttp = [
+    "network-okHttpBom",
+    "network-okHttp",
+    "network-loggingInterceptor"
+]
+
+retrofit2 = [
+    "network-retrofit2",
+    "network-converterGson",
+    "network-gson"
+]
+
+room = [
+    "room-runtime",
+    "room-ktx"
+]
+
+coroutines = [
+    "coroutines-android",
+    "coroutines-core"
+]
