@@ -25,7 +25,7 @@ internal class BooksRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun updateBooksInfo(): DataResult<List<Category>> {
+    private suspend fun updateBooksInfo(): DataResult<List<Category>> {
 
         return DataResult.Success(
             data = listOf(

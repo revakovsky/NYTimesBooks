@@ -1,5 +1,6 @@
 package com.revakovsky.data.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.revakovsky.data.BuildConfig
@@ -16,6 +17,9 @@ import javax.inject.Singleton
 
 @Module
 internal class DataModuleProvider {
+
+    @Provides
+    fun provideAppContext(application: Application): Context = application.applicationContext
 
     @Provides
     @Singleton
