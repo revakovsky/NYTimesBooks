@@ -24,6 +24,10 @@ interface BooksDao {
     suspend fun insertStore(store: StoreEntity)
 
     @Transaction
+    @Query("SELECT * FROM CategoryEntity")
+    suspend fun getCategories(): List<CategoryEntity>
+
+    @Transaction
     @Query("SELECT * FROM CategoryEntity WHERE categoryName = :categoryName")
     suspend fun getCategoryWithBooks(categoryName: String): List<CategoryWithBooks>
 
