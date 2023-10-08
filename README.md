@@ -31,7 +31,7 @@ Times Best Sellers lists.
 - [Dagger2 for DI with ksp](https://dagger.dev/)
 - [Coroutines](https://developer.android.com/kotlin/coroutines)
 - [Retrofit2](https://square.github.io/retrofit/) + [OkHttp](https://square.github.io/okhttp/)
-- [Room](https://developer.android.com/jetpack/androidx/releases/room): 1 to n relationship
+- [Room](https://developer.android.com/jetpack/androidx/releases/room) (1 to n relationship)
 - [Swipe Refresh](https://google.github.io/accompanist/swiperefresh/)
 - [Coil](https://coil-kt.github.io/coil/)
 - The Internet connectivity check
