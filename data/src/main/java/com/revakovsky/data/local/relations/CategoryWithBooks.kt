@@ -5,7 +5,7 @@ import androidx.room.Relation
 import com.revakovsky.data.local.entities.BookEntity
 import com.revakovsky.data.local.entities.CategoryEntity
 
-data class CategoryWithBooks(
+internal data class CategoryWithBooks(
     @Embedded val category: CategoryEntity,
     @Relation(
         parentColumn = "categoryName",

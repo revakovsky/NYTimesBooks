@@ -12,7 +12,7 @@ import com.revakovsky.data.local.relations.BookWithStores
 import com.revakovsky.data.local.relations.CategoryWithBooks
 
 @Dao
-interface BooksDao {
+internal interface BooksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBooksCategory(category: CategoryEntity)

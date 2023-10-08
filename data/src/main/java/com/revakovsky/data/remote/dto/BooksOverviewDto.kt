@@ -6,18 +6,18 @@ internal data class BooksOverviewDto(
     @SerializedName("results") val results: Results,
 )
 
-data class Results(
+internal data class Results(
     @SerializedName("published_date") val publishedDate: String,
     @SerializedName("lists") val categories: List<Categories>,
 )
 
-data class Categories(
+internal data class Categories(
     @SerializedName("display_name") val categoryName: String,
     @SerializedName("updated") val howOftenIsItUpdated: String,
     @SerializedName("books") val books: List<Book>,
 )
 
-data class Book(
+internal data class Book(
     @SerializedName("title") val title: String,
     @SerializedName("author") val author: String,
     @SerializedName("description") val description: String,
@@ -27,7 +27,7 @@ data class Book(
     @SerializedName("buy_links") val stores: List<Store>,
 )
 
-data class Store(
+internal data class Store(
     @SerializedName("name") val storeName: String,
     @SerializedName("url") val url: String,
 )

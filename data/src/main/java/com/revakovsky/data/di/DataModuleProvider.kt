@@ -15,7 +15,7 @@ import retrofit2.create
 import javax.inject.Singleton
 
 @Module
-internal class DataModule {
+internal class DataModuleProvider {
 
     @Provides
     @Singleton

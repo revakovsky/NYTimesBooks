@@ -10,7 +10,7 @@ import com.revakovsky.data.local.entities.StoreEntity
     entities = [CategoryEntity::class, BookEntity::class, StoreEntity::class],
     version = 1,
 )
-abstract class BooksDb : RoomDatabase() {
+internal abstract class BooksDb : RoomDatabase() {
 
     abstract val booksDao: BooksDao
 

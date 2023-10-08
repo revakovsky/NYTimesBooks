@@ -11,6 +11,7 @@ class GetBookCategoriesUseCase @Inject constructor(
     private val booksRepository: BooksRepository,
 ) {
 
-    suspend operator fun invoke(): DataResult<List<Category>> = booksRepository.getBookCategories()
+    suspend operator fun invoke(shouldUpdateBooksInfo: Boolean): DataResult<List<Category>> =
+        booksRepository.getBookCategories(shouldUpdateBooksInfo)
 
 }
