@@ -8,10 +8,10 @@ internal data class BooksOverviewDto(
 
 data class Results(
     @SerializedName("published_date") val publishedDate: String,
-    @SerializedName("lists") val categories: List<Lists>,
+    @SerializedName("lists") val categories: List<Categories>,
 )
 
-data class Lists(
+data class Categories(
     @SerializedName("display_name") val categoryName: String,
     @SerializedName("updated") val howOftenIsItUpdated: String,
     @SerializedName("books") val books: List<Book>,
@@ -24,10 +24,10 @@ data class Book(
     @SerializedName("publisher") val publisher: String,
     @SerializedName("book_image") val image: String,
     @SerializedName("rank") val rank: Int,
-    @SerializedName("buy_links") val buyLinks: List<BuyLink>,
+    @SerializedName("buy_links") val stores: List<Store>,
 )
 
-data class BuyLink(
-    @SerializedName("name") val name: String,
+data class Store(
+    @SerializedName("name") val storeName: String,
     @SerializedName("url") val url: String,
 )
