@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.revakovsky.thenytimesbooks.presentation.screens.MainViewModel
+import com.revakovsky.thenytimesbooks.navigation.AppNavGraph
+import com.revakovsky.thenytimesbooks.presentation.screens.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.TheNYTimesBooksTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<MainViewModel> { appComponent.viewModelsFactory() }
+    private val booksViewModel by viewModels<BooksViewModel> { appComponent.viewModelsFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this@MainActivity)
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    AppNavGraph(booksViewModel)
                 }
             }
         }

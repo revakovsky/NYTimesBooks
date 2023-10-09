@@ -79,7 +79,4 @@ dependencies {
     implementation(libs.dagger2)
     ksp(libs.dagger2.compiler)
 
-    // Coil
-    implementation(libs.coil.compose)
-
 }
