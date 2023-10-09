@@ -35,4 +35,13 @@ internal interface BooksDao {
     @Query("SELECT * FROM BookEntity WHERE bookTitle = :bookTitle")
     suspend fun getBookWithStores(bookTitle: String): List<BookWithStores>
 
+    @Query("DELETE FROM CategoryEntity")
+    suspend fun clearCategories()
+
+    @Query("DELETE FROM BookEntity")
+    suspend fun clearBooks()
+
+    @Query("DELETE FROM StoreEntity")
+    suspend fun clearStores()
+
 }

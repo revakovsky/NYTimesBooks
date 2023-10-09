@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 internal data class BookEntity(
     @PrimaryKey
-    val id: Int,
+    val id: Int = 0,
     val bookTitle: String,
     val author: String,
     val description: String,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="could_not_load_from_the_server">Something went wrong… Couldn\'t load new GIFs from the server</string>
+    <string name="could_not_load_from_the_server">Something went wrong… Couldn\'t load new books overview from the server</string>
     <string name="something_went_wrong">Something went wrong while fetching the data…</string>
 
 </resources>
