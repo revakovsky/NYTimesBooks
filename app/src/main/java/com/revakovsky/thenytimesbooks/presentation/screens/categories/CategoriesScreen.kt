@@ -1,6 +1,5 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.categories
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,6 +25,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.revakovsky.thenytimesbooks.R
+import com.revakovsky.thenytimesbooks.core.TheInternetNotification
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
@@ -57,7 +57,14 @@ fun CategoriesScreen(
         key3 = connectedToTheInternet
     ) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
-        checkTheInternet(hasConnectivity, connectedToTheInternet, snackBarHostState, context)
+
+        TheInternetNotification.showNotification(
+            hasConnectivity,
+            connectedToTheInternet,
+            snackBarHostState,
+            context
+        )
+
         viewModel.resetStates()
     }
 
@@ -116,18 +123,4 @@ fun CategoriesScreen(
 
     }
 
-}
-
-private suspend fun checkTheInternet(
-    hasConnectivity: Boolean?,
-    connectedToTheInternet: Boolean?,
-    snackBarHostState: SnackbarHostState,
-    context: Context,
-) {
-    if (hasConnectivity == false || connectedToTheInternet == false) snackBarHostState.showSnackbar(
-        context.getString(R.string.your_device_is_offline)
-    )
-    if (hasConnectivity == true) snackBarHostState.showSnackbar(
-        context.getString(R.string.you_are_online_again)
-    )
 }
