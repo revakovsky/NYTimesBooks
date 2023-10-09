@@ -9,7 +9,13 @@ open class BaseViewModel : ViewModel() {
     protected val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    protected val _showError = MutableStateFlow("")
-    val showError = _showError.asStateFlow()
+    protected val _errorMessage = MutableStateFlow("")
+    val errorMessage = _errorMessage.asStateFlow()
+
+
+    open fun resetErrorState() {
+        _errorMessage.value = ""
+    }
+
 
 }

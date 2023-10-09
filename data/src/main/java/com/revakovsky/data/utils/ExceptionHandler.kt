@@ -3,6 +3,7 @@ package com.revakovsky.data.utils
 import android.content.Context
 import com.revakovsky.data.R
 import retrofit2.HttpException
+import java.net.UnknownHostException
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ internal class ExceptionHandlerImpl @Inject constructor(
         e.printStackTrace()
         return when (e) {
             is HttpException -> context.getString(R.string.could_not_load_from_the_server)
+            is UnknownHostException -> context.getString(R.string.problems_connecting_to_the_server)
             is CancellationException -> throw e
             else -> context.getString(R.string.something_went_wrong)
         }

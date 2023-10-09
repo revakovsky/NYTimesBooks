@@ -1,5 +1,8 @@
 <resources>
 
     <string name="app_name">The NY Times Books</string>
+    <string name="back">Back</string>
+    <string name="published_date">Published date: %1$s</string>
+    <string name="updated">Updated: %1$s</string>
 
 </resources>

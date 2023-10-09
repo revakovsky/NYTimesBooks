@@ -12,6 +12,7 @@ import com.revakovsky.thenytimesbooks.R
 private val abhayaLibre = FontFamily(
     Font(R.font.abhayalibre_regular, weight = FontWeight.Normal),
     Font(R.font.abhayalibre_semibold, weight = FontWeight.W600),
+    Font(R.font.abhayalibre_bold, weight = FontWeight.W800),
 )
 
 private val grenzegotich = FontFamily(
@@ -26,18 +27,19 @@ val Typography = Typography(
         textAlign = TextAlign.Center
     ),
     bodyLarge = TextStyle(
+        // TODO: maybe delete
         fontFamily = abhayaLibre,
         fontWeight = FontWeight.W600,
         fontSize = 32.sp,
     ),
     bodyMedium = TextStyle(
         fontFamily = abhayaLibre,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W800,
         fontSize = 20.sp,
     ),
     bodySmall = TextStyle(
         fontFamily = abhayaLibre,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
     ),
 )

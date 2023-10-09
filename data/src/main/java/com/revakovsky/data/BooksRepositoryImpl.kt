@@ -47,12 +47,12 @@ internal class BooksRepositoryImpl @Inject constructor(
     }
 
     private suspend fun provideBookCategories(): DataResult<List<Category>> {
-        val categories = dao.getCategories().map { it.mapToCategory() }
+        val categoryEntities = dao.getCategories()
 
-        Log.d("TAG_Max", "BooksRepositoryImpl.kt: provideBookCategories categories = ${categories.joinToString()}")
-
-        return if (categories.isNotEmpty()) DataResult.Success(categories)
-        else updateBooksInfo()
+        return if (categoryEntities.isNotEmpty()) {
+            val categories = categoryEntities.map { it.mapToCategory() }
+            DataResult.Success(categories)
+        } else updateBooksInfo()
     }
 
     override suspend fun getBooksFromCategory(categoryName: String): DataResult<List<Book>> {
@@ -118,8 +118,6 @@ internal class BooksRepositoryImpl @Inject constructor(
                 dao.insertBooksCategory(categoryEntity)
                 completableDeferred.complete(Unit)
             }
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: insertCategoryEntitiesIntoDb categoryEntities = ${categoryEntities.joinToString()}")
         }
     }
 
@@ -131,8 +129,6 @@ internal class BooksRepositoryImpl @Inject constructor(
                 bookEntities.forEach { bookEntity ->
                     dao.insertBook(bookEntity)
                 }
-
-                Log.d("TAG_Max", "BooksRepositoryImpl.kt: insertBookEntitiesIntoDb bookEntities = ${bookEntities.joinToString()}")
             }
         }
     }
@@ -146,8 +142,6 @@ internal class BooksRepositoryImpl @Inject constructor(
                     storeEntities.forEach { storeEntity ->
                         dao.insertStore(storeEntity)
                     }
-
-                    Log.d("TAG_Max", "BooksRepositoryImpl.kt: insertStoreEntitiesIntoDb storeEntities = ${storeEntities.joinToString()}")
                 }
             }
         }

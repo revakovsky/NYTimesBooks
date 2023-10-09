@@ -53,7 +53,9 @@ internal class DataModuleProvider {
             context,
             BooksDb::class.java,
             "BOOKS_DB.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 }

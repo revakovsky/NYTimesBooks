@@ -1,7 +1,7 @@
 package com.revakovsky.thenytimesbooks.di
 
 import androidx.lifecycle.ViewModel
-import com.revakovsky.thenytimesbooks.presentation.screens.BooksViewModel
+import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.ClassKey
@@ -11,8 +11,8 @@ import dagger.multibindings.IntoMap
 abstract class ViewModelModule {
 
     @Binds
-    @ClassKey(BooksViewModel::class)
+    @ClassKey(CategoryViewModel::class)
     @IntoMap
-    abstract fun bindBooksViewModel(booksViewModel: BooksViewModel): ViewModel
+    abstract fun bindCategoryViewModel(categoryViewModel: CategoryViewModel): ViewModel
 
 }

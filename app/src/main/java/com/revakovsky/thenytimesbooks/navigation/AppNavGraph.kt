@@ -6,13 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.revakovsky.thenytimesbooks.presentation.screens.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksScreen
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoriesScreen
+import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.store.StoreScreen
 
 @Composable
-fun AppNavGraph(viewModel: BooksViewModel) {
+fun AppNavGraph(viewModel: CategoryViewModel) {
 
     val navController = rememberNavController()
 
