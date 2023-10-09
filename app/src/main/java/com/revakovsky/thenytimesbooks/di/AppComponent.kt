@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     dependencies = [DataDependenciesProvider::class],
-    modules = [AppModule::class, ViewModelModule::class]
+    modules = [AppProviderModule::class, ViewModelModule::class, AppBinderModule::class]
 )
 interface AppComponent {
 
