@@ -1,5 +1,6 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.categories
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -56,14 +57,7 @@ fun CategoriesScreen(
         key3 = connectedToTheInternet
     ) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
-
-        if (hasConnectivity == false || connectedToTheInternet == false) snackBarHostState.showSnackbar(
-            context.getString(R.string.your_device_is_offline)
-        )
-        if (hasConnectivity == true) snackBarHostState.showSnackbar(
-            context.getString(R.string.you_are_online_again)
-        )
-
+        checkTheInternet(hasConnectivity, connectedToTheInternet, snackBarHostState, context)
         viewModel.resetStates()
     }
 
@@ -122,4 +116,18 @@ fun CategoriesScreen(
 
     }
 
+}
+
+private suspend fun checkTheInternet(
+    hasConnectivity: Boolean?,
+    connectedToTheInternet: Boolean?,
+    snackBarHostState: SnackbarHostState,
+    context: Context,
+) {
+    if (hasConnectivity == false || connectedToTheInternet == false) snackBarHostState.showSnackbar(
+        context.getString(R.string.your_device_is_offline)
+    )
+    if (hasConnectivity == true) snackBarHostState.showSnackbar(
+        context.getString(R.string.you_are_online_again)
+    )
 }
