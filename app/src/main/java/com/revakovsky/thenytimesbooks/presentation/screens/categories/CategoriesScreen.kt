@@ -60,6 +60,9 @@ fun CategoriesScreen(
         if (hasConnectivity == false || connectedToTheInternet == false) snackBarHostState.showSnackbar(
             context.getString(R.string.your_device_is_offline)
         )
+        if (hasConnectivity == true) snackBarHostState.showSnackbar(
+            context.getString(R.string.you_are_online_again)
+        )
 
         viewModel.resetStates()
     }
