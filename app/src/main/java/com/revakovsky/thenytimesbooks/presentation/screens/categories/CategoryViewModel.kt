@@ -30,11 +30,11 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun checkConnectivity() {
-        if (!connectivityObserver.hasConnection()) _hasInternetConnection.tryEmit(false)
+        if (!connectivityObserver.hasConnection()) _connectedToTheInternet.tryEmit(false)
         connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
             when (connectivityStatus) {
-                ConnectivityObserver.Status.Available -> _hasInternetConnection.tryEmit(true)
-                else -> _hasInternetConnection.tryEmit(false)
+                ConnectivityObserver.Status.Available -> _hasConnectivity.tryEmit(true)
+                else -> _hasConnectivity.tryEmit(false)
             }
         }.launchIn(viewModelScope)
     }

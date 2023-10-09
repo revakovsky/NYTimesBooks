@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -35,10 +36,11 @@ fun CategoriesScreen(
     viewModel: CategoryViewModel,
 ) {
 
-    val categories by viewModel.categories.collectAsState(emptyList())
-    val isLoading by viewModel.isLoading.collectAsState(false)
-    val errorMessage by viewModel.errorMessage.collectAsState("")
-    val hasInternetConnection by viewModel.hasInternetConnection.collectAsState(true)
+    val categories by viewModel.categories.collectAsStateWithLifecycle(emptyList())
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
+    val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle("")
+    val hasConnectivity by viewModel.hasConnectivity.collectAsStateWithLifecycle(true)
+    val connectedToTheInternet by viewModel.connectedToTheInternet.collectAsState(true)
 
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -48,10 +50,14 @@ fun CategoriesScreen(
 
     if (isLoading) LoadingProgressDialog()
 
-    LaunchedEffect(key1 = errorMessage, key2 = hasInternetConnection) {
+    LaunchedEffect(
+        key1 = errorMessage,
+        key2 = hasConnectivity,
+        key3 = connectedToTheInternet
+    ) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
 
-        if (hasInternetConnection == false) snackBarHostState.showSnackbar(
+        if (hasConnectivity == false || connectedToTheInternet == false) snackBarHostState.showSnackbar(
             context.getString(R.string.your_device_is_offline)
         )
 

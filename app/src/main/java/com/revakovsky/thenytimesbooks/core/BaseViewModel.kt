@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.asStateFlow
 
 open class BaseViewModel : ViewModel() {
 
-    protected val _hasInternetConnection = MutableStateFlow<Boolean?>(null)
-    val hasInternetConnection = _hasInternetConnection.asStateFlow()
+    protected val _connectedToTheInternet = MutableStateFlow<Boolean?>(null)
+    val connectedToTheInternet = _connectedToTheInternet.asStateFlow()
+
+    protected val _hasConnectivity = MutableStateFlow<Boolean?>(null)
+    val hasConnectivity = _hasConnectivity.asStateFlow()
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -17,7 +20,8 @@ open class BaseViewModel : ViewModel() {
 
 
     open fun resetStates() {
-        _hasInternetConnection.value = null
+        _connectedToTheInternet.value = null
+        _hasConnectivity.value = null
         _errorMessage.value = ""
     }
 
