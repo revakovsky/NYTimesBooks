@@ -21,7 +21,7 @@ import com.revakovsky.thenytimesbooks.presentation.widgets.TextTitle
 @Composable
 fun CategoryItem(
     category: CategoryUi,
-    onCategoryClick: (String) -> Unit,
+    onCategoryClick: (categoryName: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 

@@ -33,7 +33,7 @@ import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriesScreen(
-    openBooksScreen: (String) -> Unit,
+    openBooksScreen: (categoryName: String) -> Unit,
     viewModel: CategoryViewModel,
 ) {
 
