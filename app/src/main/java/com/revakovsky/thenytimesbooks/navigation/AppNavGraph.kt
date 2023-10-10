@@ -7,12 +7,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksScreen
+import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoriesScreen
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.store.StoreScreen
 
 @Composable
-fun AppNavGraph(viewModel: CategoryViewModel) {
+fun AppNavGraph(
+    categoryViewModel: CategoryViewModel,
+    booksViewModel: BooksViewModel,
+) {
 
     val navController = rememberNavController()
 
@@ -21,9 +25,9 @@ fun AppNavGraph(viewModel: CategoryViewModel) {
         composable(route = Screens.CategoriesScreen.route) {
             CategoriesScreen(
                 openBooksScreen = { categoryName ->
-                    navController.navigate(Screens.BooksScreen.arguments(categoryName))
+                    navController.navigate(Screens.BooksScreen.passCategoryName(categoryName))
                 },
-                viewModel
+                categoryViewModel
             )
         }
 
@@ -34,21 +38,23 @@ fun AppNavGraph(viewModel: CategoryViewModel) {
 
             BooksScreen(
                 categoryName = navBackStackEntry.arguments?.getString(CATEGORY_NAME) ?: "",
-                openStoresScreen = { linkToBook ->
-                    navController.navigate(Screens.StoreScreen.arguments(linkToBook))
+                navigateToOtherScreen = { linkToTheStore ->
+                    if (linkToTheStore.isNotEmpty()) {
+                        navController.navigate(Screens.StoreScreen.passLinkToTheStore(linkToTheStore))
+                    } else navController.popBackStack()
                 },
-                viewModel
+                booksViewModel
             )
         }
 
         composableWithAnimatedTransition(
             route = Screens.StoreScreen.route,
-            arguments = listOf(navArgument(LINK_TO_BOOK) { type = NavType.StringType })
+            arguments = listOf(navArgument(LINK_TO_THE_STORE) { type = NavType.StringType })
         ) { _, navBackStackEntry ->
 
             StoreScreen(
-                url = navBackStackEntry.arguments?.getString(LINK_TO_BOOK) ?: "",
-                viewModel
+                url = navBackStackEntry.arguments?.getString(LINK_TO_THE_STORE) ?: "",
+                categoryViewModel
             )
         }
 

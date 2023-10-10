@@ -18,14 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.revakovsky.thenytimesbooks.R
-import com.revakovsky.thenytimesbooks.core.TheInternetNotification
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
@@ -39,11 +37,8 @@ fun CategoriesScreen(
 
     val categories by viewModel.categories.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
-    val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle("")
-    val hasConnectivity by viewModel.hasConnectivity.collectAsStateWithLifecycle(true)
-    val connectedToTheInternet by viewModel.connectedToTheInternet.collectAsState(true)
+    val errorMessage by viewModel.errorMessage.collectAsState("")
 
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
     val swipeRefreshState = rememberSwipeRefreshState(isLoading)
@@ -51,21 +46,9 @@ fun CategoriesScreen(
 
     if (isLoading) LoadingProgressDialog()
 
-    LaunchedEffect(
-        key1 = errorMessage,
-        key2 = hasConnectivity,
-        key3 = connectedToTheInternet
-    ) {
+    LaunchedEffect(key1 = errorMessage) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
-
-        TheInternetNotification.showNotification(
-            hasConnectivity,
-            connectedToTheInternet,
-            snackBarHostState,
-            context
-        )
-
-        viewModel.resetStates()
+        viewModel.resetState()
     }
 
     Scaffold(
@@ -87,7 +70,7 @@ fun CategoriesScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
             state = swipeRefreshState,
-            onRefresh = { viewModel.getCategories(shouldUpdateBooksInfo = true) },
+            onRefresh = { viewModel.getCategories(shouldUpdateCategories = true) },
             indicator = { state, refreshTrigger ->
                 SwipeRefreshIndicator(
                     state = state,

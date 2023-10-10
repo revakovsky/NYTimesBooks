@@ -9,12 +9,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.revakovsky.thenytimesbooks.navigation.AppNavGraph
+import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryViewModel
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.TheNYTimesBooksTheme
 
 class MainActivity : ComponentActivity() {
 
     private val categoryViewModel by viewModels<CategoryViewModel> { appComponent.viewModelsFactory() }
+    private val booksViewModel by viewModels<BooksViewModel> { appComponent.viewModelsFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this@MainActivity)
@@ -27,7 +29,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavGraph(categoryViewModel)
+                    AppNavGraph(
+                        categoryViewModel,
+                        booksViewModel
+                    )
                 }
             }
         }
