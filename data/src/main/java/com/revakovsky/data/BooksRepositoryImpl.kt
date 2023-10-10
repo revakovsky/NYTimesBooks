@@ -1,8 +1,6 @@
 package com.revakovsky.data
 
-import android.util.Log
 import com.revakovsky.data.local.BooksDb
-import com.revakovsky.data.local.entities.BookEntity
 import com.revakovsky.data.remote.ApiService
 import com.revakovsky.data.remote.dto.ResultsDto
 import com.revakovsky.data.utils.ExceptionHandler
@@ -17,8 +15,10 @@ import com.revakovsky.domain.models.Category
 import com.revakovsky.domain.models.Store
 import com.revakovsky.domain.repository.BooksRepository
 import com.revakovsky.domain.util.DataResult
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class BooksRepositoryImpl @Inject constructor(
@@ -70,10 +70,6 @@ internal class BooksRepositoryImpl @Inject constructor(
             if (shouldUpdateBooks) updateBooksInfo(categoryName)
             else provideBooks(categoryName)
         } catch (e: Exception) {
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: Exception e = ${e.message}")
-            Log.d("TAG_Max", "")
-
             DataResult.Error(message = exceptionHandler.handleException(e))
         }
     }
@@ -85,23 +81,8 @@ internal class BooksRepositoryImpl @Inject constructor(
 
     private suspend fun provideBooks(categoryName: String): DataResult<List<Book>> {
         var books = emptyList<Book>()
-
         dao.getCategoryWithBooks(categoryName).forEach { categoryWithBooks ->
-
-            Log.d(
-                "TAG_Max",
-                "BooksRepositoryImpl.kt: getBooksFromCategory categoryWithBooks = $categoryWithBooks"
-            )
-            Log.d("TAG_Max", "")
-
             books = categoryWithBooks.books.map { it.mapToBook() }
-
-            Log.d(
-                "TAG_Max",
-                "BooksRepositoryImpl.kt: getBooksFromCategory books = ${books.joinToString()}"
-            )
-            Log.d("TAG_Max", "")
-
         }
         return DataResult.Success(data = books)
     }
@@ -111,12 +92,6 @@ internal class BooksRepositoryImpl @Inject constructor(
         return try {
             dao.getBookWithStores(bookTitle).forEach { bookWithStores ->
                 stores = bookWithStores.stores.map { it.mapToStore() }
-
-                Log.d(
-                    "TAG_Max",
-                    "BooksRepositoryImpl.kt: getStoresForTheBook stores = ${stores.joinToString()}"
-                )
-
             }
             DataResult.Success(data = stores)
         } catch (e: Exception) {
@@ -125,22 +100,14 @@ internal class BooksRepositoryImpl @Inject constructor(
     }
 
     private suspend fun processRemoteData(remoteData: ResultsDto) {
-        val completableDeferred = CompletableDeferred<Unit>()
-        val completableDeferred2 = CompletableDeferred<Unit>()
-        val completableDeferred3 = CompletableDeferred<Unit>()
-
         clearLocalDb()
-        insertCategoryEntitiesIntoDb(remoteData, completableDeferred)
-        insertBookEntitiesIntoDb(remoteData, completableDeferred2)
-        insertStoreEntitiesIntoDb(remoteData, completableDeferred3)
 
-        completableDeferred.await()
-        completableDeferred2.await()
-        completableDeferred3.await()
-
-        Log.d("TAG_Max", "BooksRepositoryImpl.kt: start getCategories()")
-        Log.d("TAG_Max", "")
-
+        withContext(Dispatchers.IO) {
+            val deferred1 = async { insertCategoryEntitiesIntoDb(remoteData) }
+            val deferred2 = async { insertBookEntitiesIntoDb(remoteData) }
+            val deferred3 = async { insertStoreEntitiesIntoDb(remoteData) }
+            awaitAll(deferred1, deferred2, deferred3)
+        }
     }
 
     private suspend fun clearLocalDb() {
@@ -148,83 +115,33 @@ internal class BooksRepositoryImpl @Inject constructor(
             clearCategories()
             clearBooks()
             clearStores()
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: finish clearLocalDb")
-            Log.d("TAG_Max", "")
-
         }
     }
 
-    private suspend fun insertCategoryEntitiesIntoDb(
-        remoteData: ResultsDto,
-        completableDeferred: CompletableDeferred<Unit>,
-    ) {
-        coroutineScope {
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: start insertCategoryEntitiesIntoDb")
-            Log.d("TAG_Max", "")
-
-            val publishedDate = remoteData.publishedDate
-            val categoryEntities =
-                remoteData.categories.map { it.mapToCategoryEntity(publishedDate) }
-            categoryEntities.forEach { categoryEntity ->
+    private suspend fun insertCategoryEntitiesIntoDb(remoteData: ResultsDto) {
+        val publishedDate = remoteData.publishedDate
+        remoteData.categories.map { it.mapToCategoryEntity(publishedDate) }
+            .forEach { categoryEntity ->
                 dao.insertBooksCategory(categoryEntity)
-                completableDeferred.complete(Unit)
+            }
+    }
 
-                Log.d("TAG_Max", "BooksRepositoryImpl.kt: finish insertCategoryEntitiesIntoDb")
-                Log.d("TAG_Max", "")
-
+    private suspend fun insertBookEntitiesIntoDb(remoteData: ResultsDto) {
+        remoteData.categories.forEach { categoryDto ->
+            val categoryName = categoryDto.categoryName
+            categoryDto.books.forEach { bookDto ->
+                dao.insertBook(bookDto.mapToBookEntity(categoryName))
             }
         }
     }
 
-    private suspend fun insertBookEntitiesIntoDb(
-        remoteData: ResultsDto,
-        completableDeferred2: CompletableDeferred<Unit>,
-    ) {
-        coroutineScope {
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: start insertBookEntitiesIntoDb")
-            Log.d("TAG_Max", "")
-
-            val allBooksEntities = mutableListOf<BookEntity>()
-            remoteData.categories.forEach { categoryDto ->
-                val categoryName = categoryDto.categoryName
-                categoryDto.books.map { it.mapToBookEntity(categoryName) }.forEach { bookEntities ->
-                    allBooksEntities.add(bookEntities)
-                }
-            }
-            allBooksEntities.forEach { bookEntity ->
-                dao.insertBook(bookEntity)
-            }
-            completableDeferred2.complete(Unit)
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: finish insertBookEntitiesIntoDb")
-            Log.d("TAG_Max", "")
-        }
-    }
-
-    private suspend fun insertStoreEntitiesIntoDb(
-        remoteData: ResultsDto,
-        completableDeferred3: CompletableDeferred<Unit>,
-    ) {
-        coroutineScope {
-
-            Log.d("TAG_Max", "BooksRepositoryImpl.kt: start insertStoreEntitiesIntoDb")
-            Log.d("TAG_Max", "")
-
-            remoteData.categories.forEach { categoryDto ->
-                categoryDto.books.forEach { bookDto ->
-                    val bookTitle = bookDto.title
-                    val storeEntities = bookDto.stores.map { it.mapToStoreEntity(bookTitle) }
-                    storeEntities.forEach { storeEntity ->
-                        dao.insertStore(storeEntity)
-                        completableDeferred3.complete(Unit)
-
-                        Log.d("TAG_Max", "BooksRepositoryImpl.kt: finish insertStoreEntitiesIntoDb")
-                        Log.d("TAG_Max", "")
-
-                    }
+    private suspend fun insertStoreEntitiesIntoDb(remoteData: ResultsDto) {
+        remoteData.categories.forEach { categoryDto ->
+            categoryDto.books.forEach { bookDto ->
+                val bookTitle = bookDto.title
+                val storeEntities = bookDto.stores.map { it.mapToStoreEntity(bookTitle) }
+                storeEntities.forEach { storeEntity ->
+                    dao.insertStore(storeEntity)
                 }
             }
         }
