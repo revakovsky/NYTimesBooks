@@ -17,6 +17,7 @@ fun TextTitle(
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textAlign: TextAlign = TextAlign.Start,
+    singleLine: Boolean = true,
 ) {
 
     Text(
@@ -24,7 +25,7 @@ fun TextTitle(
         text = text,
         style = style.copy(textAlign = textAlign),
         color = textColor,
-        maxLines = 1,
+        maxLines = if (singleLine) 1 else 10,
         overflow = TextOverflow.Ellipsis
     )
 

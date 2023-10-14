@@ -1,12 +1,10 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.categories
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -20,12 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
+import com.revakovsky.thenytimesbooks.presentation.widgets.SwipeRefreshContainer
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +37,6 @@ fun CategoriesScreen(
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
-    val swipeRefreshState = rememberSwipeRefreshState(isLoading)
 
 
     if (isLoading) LoadingProgressDialog()
@@ -65,20 +60,9 @@ fun CategoriesScreen(
         }
     ) { paddingValues ->
 
-        SwipeRefresh(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            state = swipeRefreshState,
-            onRefresh = { viewModel.getCategories(shouldUpdateCategories = true) },
-            indicator = { state, refreshTrigger ->
-                SwipeRefreshIndicator(
-                    state = state,
-                    refreshTriggerDistance = refreshTrigger,
-                    backgroundColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+        SwipeRefreshContainer(
+            isLoading = isLoading,
+            onRefresh = { viewModel.getCategories(shouldUpdateCategories = true) }
         ) {
 
             LazyColumn(

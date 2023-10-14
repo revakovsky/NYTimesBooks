@@ -37,3 +37,4 @@ Times Best Sellers lists.
 - The Internet connectivity check
 - Base viewModel
 - StateFlow
+- Adaptive layout depending on screen size

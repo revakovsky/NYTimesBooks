@@ -7,5 +7,10 @@
     <string name="your_device_is_offline">Your device is offline. Please, check the Internet connection</string>
     <string name="book_author">Author: %1$s</string>
     <string name="book_rank">Rank: %1$s</string>
+    <string name="book_image">Book image</string>
+    <string name="buy">Buy</string>
+    <string name="publisher">Publisher: %1$s</string>
+    <string name="description">Description: %1$s</string>
+    <string name="description_is_not_available">Description for this book is not available</string>
 
 </resources>

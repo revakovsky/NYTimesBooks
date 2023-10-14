@@ -8,8 +8,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.revakovsky.thenytimesbooks.core.WindowType
 
 private val lightColors = lightColorScheme(
     primary = lightPrimary,
@@ -51,7 +53,7 @@ private val darkColors = darkColorScheme(
 @Composable
 fun TheNYTimesBooksTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors =
         if (!useDarkTheme) lightColors
@@ -67,6 +69,9 @@ fun TheNYTimesBooksTheme(
             WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = false
         }
     }
+
+    val configuration = LocalConfiguration.current
+    WindowType.setConfiguration(configuration)
 
     MaterialTheme(
         colorScheme = colors,

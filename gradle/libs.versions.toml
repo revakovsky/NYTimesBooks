@@ -92,6 +92,7 @@ compose-activityCompose    = { group = "androidx.activity", name = "activity-com
 compose-ui                 = { group = "androidx.compose.ui", name = "ui" }
 compose-uiGraphics         = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-material3          = { group = "androidx.compose.material3", name = "material3" }
+compose-uiTooling          = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-uiToolingPreview   = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-navigationCompose  = { group = "androidx.navigation", name = "navigation-compose", version.ref = "ver_NavigationCompose" }
 
@@ -152,6 +153,7 @@ composeUi = [
     "compose-ui",
     "compose-uiGraphics",
     "compose-material3",
+    "compose-uiTooling",
     "compose-uiToolingPreview",
     "compose-navigationCompose"
 ]
