@@ -120,10 +120,9 @@ internal class BooksRepositoryImpl @Inject constructor(
 
     private suspend fun insertCategoryEntitiesIntoDb(remoteData: ResultsDto) {
         val publishedDate = remoteData.publishedDate
-        remoteData.categories.map { it.mapToCategoryEntity(publishedDate) }
-            .forEach { categoryEntity ->
-                dao.insertBooksCategory(categoryEntity)
-            }
+        remoteData.categories.forEach { categoryDto ->
+            dao.insertBooksCategory(categoryDto.mapToCategoryEntity(publishedDate))
+        }
     }
 
     private suspend fun insertBookEntitiesIntoDb(remoteData: ResultsDto) {
@@ -139,9 +138,8 @@ internal class BooksRepositoryImpl @Inject constructor(
         remoteData.categories.forEach { categoryDto ->
             categoryDto.books.forEach { bookDto ->
                 val bookTitle = bookDto.title
-                val storeEntities = bookDto.stores.map { it.mapToStoreEntity(bookTitle) }
-                storeEntities.forEach { storeEntity ->
-                    dao.insertStore(storeEntity)
+                bookDto.stores.forEach { storeDto ->
+                    dao.insertStore(storeDto.mapToStoreEntity(bookTitle))
                 }
             }
         }

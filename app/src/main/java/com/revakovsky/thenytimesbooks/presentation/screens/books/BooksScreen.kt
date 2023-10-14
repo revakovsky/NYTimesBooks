@@ -17,12 +17,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
@@ -62,7 +60,7 @@ fun BooksScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
             ToolBar(
-                titleText = stringResource(id = R.string.app_name),
+                titleText = categoryName,
                 scrollBehavior = scrollBehavior,
                 onNavigationIconClick = { navigateToOtherScreen("") }
             )

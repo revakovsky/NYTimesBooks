@@ -24,13 +24,8 @@ val Typography = Typography(
         fontFamily = grenzegotich,
         fontWeight = FontWeight.W600,
         fontSize = 24.sp,
-        textAlign = TextAlign.Center
-    ),
-    bodyLarge = TextStyle(
-        // TODO: maybe delete
-        fontFamily = abhayaLibre,
-        fontWeight = FontWeight.W600,
-        fontSize = 32.sp,
+        textAlign = TextAlign.Center,
+        lineHeight = 24.sp,
     ),
     bodyMedium = TextStyle(
         fontFamily = abhayaLibre,

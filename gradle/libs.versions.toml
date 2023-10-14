@@ -9,7 +9,7 @@ versionName                 = "1.0"
 
 testInstrumentationRunner   = "androidx.test.runner.AndroidJUnitRunner"
 kotlinCompilerExtension     = "1.4.3"
-jvmTarget                   = "11"
+jvmTarget                   = "17"
 
 # Module names
 name-app                    = "com.revakovsky.thenytimesbooks"
@@ -28,7 +28,7 @@ ver_Appcompat               = "1.6.1"
 ver_Material                = "1.10.0"
 
 # Compose
-ver_ActivityCompose         = "1.7.2"
+ver_ActivityCompose         = "1.8.0"
 ver_ComposeBom              = "2023.10.00"
 ver_NavigationCompose       = "2.7.4"
 

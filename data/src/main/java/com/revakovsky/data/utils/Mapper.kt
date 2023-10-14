@@ -53,7 +53,7 @@ internal fun BookEntity.mapToBook(): Book {
         author = this.author,
         description = this.description,
         publisher = this.publisher,
-        image = this.image,
+        image = this.image.orEmpty(),
         rank = this.rank
     )
 }

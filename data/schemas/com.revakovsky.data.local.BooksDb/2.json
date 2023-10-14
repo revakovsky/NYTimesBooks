@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "ecf04f2ec5cacec8dd9f5d6765b6bc25",
+    "identityHash": "3b9d0953140f648628ea9db19f0d0888",
     "entities": [
       {
         "tableName": "CategoryEntity",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "BookEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bookTitle` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `publisher` TEXT NOT NULL, `image` TEXT NOT NULL, `rank` INTEGER NOT NULL, `categoryName` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bookTitle` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `publisher` TEXT NOT NULL, `image` TEXT, `rank` INTEGER NOT NULL, `categoryName` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -74,7 +74,7 @@
             "fieldPath": "image",
             "columnName": "image",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "rank",
@@ -90,7 +90,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
             "id"
           ]
@@ -100,8 +100,14 @@
       },
       {
         "tableName": "StoreEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`storeName` TEXT NOT NULL, `bookTitle` TEXT NOT NULL, `url` TEXT NOT NULL, PRIMARY KEY(`storeName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `storeName` TEXT NOT NULL, `bookTitle` TEXT NOT NULL, `url` TEXT NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "storeName",
             "columnName": "storeName",
@@ -122,9 +128,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
-            "storeName"
+            "id"
           ]
         },
         "indices": [],
@@ -134,7 +140,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ecf04f2ec5cacec8dd9f5d6765b6bc25')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b9d0953140f648628ea9db19f0d0888')"
     ]
   }
 }
