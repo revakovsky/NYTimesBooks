@@ -1,11 +1,14 @@
 package com.revakovsky.thenytimesbooks.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.revakovsky.thenytimesbooks.appComponent
+import com.revakovsky.thenytimesbooks.core.daggerViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksScreen
 import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoriesScreen
@@ -13,16 +16,19 @@ import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryVi
 import com.revakovsky.thenytimesbooks.presentation.screens.store.StoreScreen
 
 @Composable
-fun AppNavGraph(
-    categoryViewModel: CategoryViewModel,
-    booksViewModel: BooksViewModel,
-) {
+fun AppNavGraph() {
 
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.CategoriesScreen.route) {
 
         composable(route = Screens.CategoriesScreen.route) {
+
+            val context = LocalContext.current
+            val categoryViewModel: CategoryViewModel = daggerViewModel {
+                context.appComponent.getCategoryViewModel()
+            }
+
             CategoriesScreen(
                 openBooksScreen = { categoryName ->
                     navController.navigate(Screens.BooksScreen.passCategoryName(categoryName))
@@ -35,6 +41,11 @@ fun AppNavGraph(
             route = Screens.BooksScreen.route,
             arguments = listOf(navArgument(CATEGORY_NAME) { type = NavType.StringType })
         ) { _, navBackStackEntry ->
+
+            val context = LocalContext.current
+            val booksViewModel: BooksViewModel = daggerViewModel {
+                context.appComponent.getBooksViewModel()
+            }
 
             BooksScreen(
                 categoryName = navBackStackEntry.arguments?.getString(CATEGORY_NAME) ?: "",
@@ -54,7 +65,6 @@ fun AppNavGraph(
 
             StoreScreen(
                 url = navBackStackEntry.arguments?.getString(LINK_TO_THE_STORE) ?: "",
-                categoryViewModel
             )
         }
 

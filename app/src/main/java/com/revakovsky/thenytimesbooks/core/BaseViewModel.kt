@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class BaseViewModel(
-    private val connectivityObserver: ConnectivityObserver,
-    private val stringProvider: StringProvider,
-) : ViewModel() {
+@Singleton
+open class BaseViewModel @Inject constructor() : ViewModel() {
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -20,13 +20,13 @@ open class BaseViewModel(
     val errorMessage = _errorMessage.asStateFlow()
 
 
-    protected fun checkConnectivity() {
+    protected fun checkConnectivity(connectivityObserver: ConnectivityObserver) {
         if (!connectivityObserver.hasConnection()) _errorMessage.value =
-            stringProvider.provideOfflineText()
+            "ERROR: base viewModel - create text for error"
         connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
             when (connectivityStatus) {
                 ConnectivityObserver.Status.Available -> Unit
-                else -> _errorMessage.value = stringProvider.provideOfflineText()
+                else -> _errorMessage.value = "ERROR: base viewModel - create text for error"
             }
         }.launchIn(viewModelScope)
     }

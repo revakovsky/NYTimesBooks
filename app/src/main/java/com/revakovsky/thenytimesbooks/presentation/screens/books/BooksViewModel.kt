@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.revakovsky.domain.useCase.GetBooksUseCase
 import com.revakovsky.thenytimesbooks.core.BaseViewModel
 import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
-import com.revakovsky.thenytimesbooks.core.StringProvider
 import com.revakovsky.thenytimesbooks.presentation.models.BookUi
 import com.revakovsky.thenytimesbooks.utils.mapToBookUi
 import kotlinx.coroutines.Dispatchers
@@ -15,15 +14,14 @@ import javax.inject.Inject
 
 class BooksViewModel @Inject constructor(
     connectivityObserver: ConnectivityObserver,
-    stringProvider: StringProvider,
     private val getBooksUseCase: GetBooksUseCase,
-) : BaseViewModel(connectivityObserver, stringProvider) {
+) : BaseViewModel() {
 
     private val _books = MutableStateFlow<List<BookUi>>(emptyList())
     val books = _books.asStateFlow()
 
     init {
-        checkConnectivity()
+        checkConnectivity(connectivityObserver)
     }
 
     fun getBooksFromCategory(categoryName: String, shouldUpdateBooksInfo: Boolean) {

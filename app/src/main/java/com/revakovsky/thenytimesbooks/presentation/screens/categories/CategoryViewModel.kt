@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.revakovsky.domain.useCase.GetBookCategoriesUseCase
 import com.revakovsky.thenytimesbooks.core.BaseViewModel
 import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
-import com.revakovsky.thenytimesbooks.core.StringProvider
 import com.revakovsky.thenytimesbooks.presentation.models.CategoryUi
 import com.revakovsky.thenytimesbooks.utils.mapToCategoryUi
 import kotlinx.coroutines.Dispatchers
@@ -15,15 +14,14 @@ import javax.inject.Inject
 
 class CategoryViewModel @Inject constructor(
     connectivityObserver: ConnectivityObserver,
-    stringProvider: StringProvider,
     private val getBookCategoriesUseCase: GetBookCategoriesUseCase,
-) : BaseViewModel(connectivityObserver, stringProvider) {
+) : BaseViewModel() {
 
     private val _categories = MutableStateFlow<List<CategoryUi>>(emptyList())
     val categories = _categories.asStateFlow()
 
     init {
-        checkConnectivity()
+        checkConnectivity(connectivityObserver)
         getCategories(shouldUpdateCategories = false)
     }
 

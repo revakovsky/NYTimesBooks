@@ -1,5 +1,7 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.categories
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.revakovsky.thenytimesbooks.R
@@ -89,5 +92,8 @@ fun CategoriesScreen(
         }
 
     }
+
+    val context = LocalContext.current
+    BackHandler { (context as Activity).finish() }
 
 }
