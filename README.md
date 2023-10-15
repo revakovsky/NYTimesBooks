@@ -2,7 +2,7 @@
 
 [The link to download the .apk file of the app for testing purposes](https://drive.google.com/drive/folders/1gwQXfTSa12lL8deDvqLArWuZDN8YEBJ1?usp=drive_link)
 
-![screen_record]
+![screen_recording](screenRecording/screen_recording.gif)
 
 <br>
 
