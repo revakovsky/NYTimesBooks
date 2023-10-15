@@ -9,12 +9,12 @@ versionName                 = "1.0"
 
 testInstrumentationRunner   = "androidx.test.runner.AndroidJUnitRunner"
 kotlinCompilerExtension     = "1.4.3"
-jvmTarget                   = "1.8"
+jvmTarget                   = "17"
 
 # Module names
 name-app                    = "com.revakovsky.thenytimesbooks"
-name-domain                 = "com.revakovskyi.domain"
-name-data                   = "com.revakovskyi.data"
+name-domain                 = "com.revakovsky.domain"
+name-data                   = "com.revakovsky.data"
 
 # Plugins
 ver_AndroidApplication      = "8.1.2"
@@ -28,9 +28,9 @@ ver_Appcompat               = "1.6.1"
 ver_Material                = "1.10.0"
 
 # Compose
-ver_ActivityCompose         = "1.7.2"
+ver_ActivityCompose         = "1.8.0"
 ver_ComposeBom              = "2023.10.00"
-ver_NavigationCompose       = "2.5.3"
+ver_NavigationCompose       = "2.7.4"
 
 # Tests
 ver_JUnit                   = "4.13.2"
@@ -55,9 +55,6 @@ ver_Room                    = "2.5.2"
 ver_OkHttpBom               = "4.11.0"
 ver_Retrofit2               = "2.9.0"
 ver_Gson                    = "2.10.1"
-
-#Lottie animations
-ver_Lottie                  = "6.0.1"
 
 # Swipe Refresh
 ver_SwipeRefresh            = "0.24.13-rc"
@@ -95,6 +92,7 @@ compose-activityCompose    = { group = "androidx.activity", name = "activity-com
 compose-ui                 = { group = "androidx.compose.ui", name = "ui" }
 compose-uiGraphics         = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-material3          = { group = "androidx.compose.material3", name = "material3" }
+compose-uiTooling          = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-uiToolingPreview   = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-navigationCompose  = { group = "androidx.navigation", name = "navigation-compose", version.ref = "ver_NavigationCompose" }
 
@@ -133,9 +131,6 @@ network-retrofit2          = { module = "com.squareup.retrofit2:retrofit", versi
 network-converterGson      = { module = "com.squareup.retrofit2:converter-gson", version.ref = "ver_Retrofit2" }
 network-gson               = { module = "com.google.code.gson:gson", version.ref = "ver_Gson" }
 
-#Lottie animations
-lottie                     = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "ver_Lottie" }
-
 # Swipe Refresh
 swipeRefresh               = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "ver_SwipeRefresh" }
 
@@ -158,6 +153,7 @@ composeUi = [
     "compose-ui",
     "compose-uiGraphics",
     "compose-material3",
+    "compose-uiTooling",
     "compose-uiToolingPreview",
     "compose-navigationCompose"
 ]

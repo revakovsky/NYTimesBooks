@@ -16,4 +16,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "The NY Times Books"
+
 include(":app")
+include(":data")
+include(":domain")
