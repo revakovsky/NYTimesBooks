@@ -21,6 +21,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.revakovsky.thenytimesbooks.R
+import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
 import com.revakovsky.thenytimesbooks.core.WindowType
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
@@ -46,7 +47,7 @@ fun BooksScreen(
     val stores by viewModel.stores.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle("")
-    val hasInternetConnection by viewModel.hasConnection.collectAsState(null)
+    val internetStatus by viewModel.internetStatus.collectAsState(null)
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -61,22 +62,23 @@ fun BooksScreen(
 
     LaunchedEffect(
         key1 = errorMessage,
-        key2 = hasInternetConnection,
+        key2 = internetStatus,
         key3 = chosenBookTitle
     ) {
-
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
 
-        if (hasInternetConnection == false) {
+        if (internetStatus == ConnectivityObserver.Status.Unavailable) {
             snackBarHostState.showSnackbar(context.getString(R.string.your_device_is_offline))
             chosenBookTitle = ""
         }
 
-        if (hasInternetConnection == true) snackBarHostState.showSnackbar(
-            context.getString(R.string.you_are_online_again)
-        )
+        if (internetStatus == ConnectivityObserver.Status.Appeared) {
+            snackBarHostState.showSnackbar(context.getString(R.string.you_are_online_again))
+            viewModel.getBooksFromCategory(categoryName, shouldUpdateBooksInfo = false)
+            shouldRefreshBookImages = true
+        }
 
-        if (hasInternetConnection == null && chosenBookTitle.isNotEmpty()) {
+        if (internetStatus == ConnectivityObserver.Status.Available && chosenBookTitle.isNotEmpty()) {
             viewModel.getStoresByTheBookTitle(chosenBookTitle)
         }
 
@@ -104,10 +106,10 @@ fun BooksScreen(
         SwipeRefreshContainer(
             isLoading = isLoading,
             onRefresh = {
-                viewModel.getBooksFromCategory(
-                    categoryName,
-                    shouldUpdateBooksInfo = true
-                )
+                viewModel.apply {
+                    refreshStoresList()
+                    getBooksFromCategory(categoryName, shouldUpdateBooksInfo = true)
+                }
                 shouldRefreshBookImages = true
             }
         ) {

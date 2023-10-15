@@ -2,8 +2,6 @@ package com.revakovsky.thenytimesbooks.presentation.screens.store
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.os.Bundle
-import android.os.Parcelable
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -20,13 +18,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import kotlinx.parcelize.Parcelize
 
 @Composable
 fun StoreScreen(
@@ -37,7 +33,6 @@ fun StoreScreen(
 
     var isWebPageLoading by remember { mutableStateOf(true) }
     var webPageLoadingProgress by remember { mutableIntStateOf(0) }
-    val webViewState = rememberSaveable { WebViewState() }
 
     val webView = remember {
 
@@ -68,10 +63,7 @@ fun StoreScreen(
 
     }
 
-    LaunchedEffect(key1 = true) {
-        if (webViewState.url == null) webView.loadUrl(url)
-        else webViewState.bundle?.let { webView.restoreState(it) }
-    }
+    LaunchedEffect(key1 = true) { webView.loadUrl(url) }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -93,6 +85,7 @@ fun StoreScreen(
             )
 
         }
+
     }
 
     BackHandler {
@@ -118,10 +111,3 @@ private fun setUpWebView(webView: WebView) {
         userAgentString.replace("wv", "")
     }
 }
-
-
-@Parcelize
-private data class WebViewState(
-    var url: String? = null,
-    var bundle: Bundle? = null,
-) : Parcelable

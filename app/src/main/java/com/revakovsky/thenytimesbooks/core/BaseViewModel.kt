@@ -19,30 +19,31 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     private val _errorMessage = MutableStateFlow("")
     val errorMessage = _errorMessage.asStateFlow()
 
-    private val _hasConnection = MutableStateFlow<Boolean?>(null)
-    val hasConnection = _hasConnection.asStateFlow()
+    private val _internetStatus = MutableStateFlow(ConnectivityObserver.Status.Undefined)
+    val internetStatus = _internetStatus.asStateFlow()
 
 
     protected fun checkConnectivity(connectivityObserver: ConnectivityObserver) {
-        if (connectivityObserver.hasConnection()) _hasConnection.value = isInternetAvailable
-        else {
-            isInternetAvailable = false
-            _hasConnection.value = isInternetAvailable
-        }
+        status = if (connectivityObserver.hasConnection()) ConnectivityObserver.Status.Available
+        else ConnectivityObserver.Status.Unavailable
+
+        _internetStatus.value = status
 
         connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
             when (connectivityStatus) {
 
                 ConnectivityObserver.Status.Available -> {
-                    if (isInternetAvailable == false) {
-                        _hasConnection.value = true
-                        isInternetAvailable = null
+                    if (status == ConnectivityObserver.Status.Unavailable) {
+                        _internetStatus.value = ConnectivityObserver.Status.Appeared
+                    } else {
+                        _internetStatus.value = ConnectivityObserver.Status.Available
                     }
+                    status = ConnectivityObserver.Status.Undefined
                 }
 
                 else -> {
-                    isInternetAvailable = false
-                    _hasConnection.value = isInternetAvailable
+                    status = ConnectivityObserver.Status.Unavailable
+                    _internetStatus.value = status
                 }
             }
         }.launchIn(viewModelScope)
@@ -70,13 +71,13 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     }
 
     open fun resetState() {
-        _hasConnection.value = null
+        _internetStatus.value = ConnectivityObserver.Status.Undefined
         _errorMessage.value = ""
     }
 
 
     companion object {
-        var isInternetAvailable: Boolean? = null
+        var status: ConnectivityObserver.Status = ConnectivityObserver.Status.Undefined
     }
 
 }
