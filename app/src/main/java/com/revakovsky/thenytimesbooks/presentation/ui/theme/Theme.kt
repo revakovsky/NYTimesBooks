@@ -18,12 +18,6 @@ private val lightColors = lightColorScheme(
     onPrimary = lightOnPrimary,
     primaryContainer = lightPrimaryContainer,
 
-    secondary = lightSecondary,
-    onSecondary = lightOnSecondary,
-
-    error = lightError,
-    errorContainer = lightErrorContainer,
-
     background = lightBackground,
     onBackground = lightOnBackground,
 
@@ -36,12 +30,6 @@ private val darkColors = darkColorScheme(
     primary = darkPrimary,
     onPrimary = darkOnPrimary,
     primaryContainer = darkPrimaryContainer,
-
-    secondary = darkSecondary,
-    onSecondary = darkOnSecondary,
-
-    error = darkError,
-    errorContainer = darkErrorContainer,
 
     background = darkBackground,
     onBackground = darkOnBackground,

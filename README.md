@@ -38,3 +38,4 @@ Times Best Sellers lists.
 - Base viewModel
 - StateFlow
 - Adaptive layout depending on screen size
+- WebView in the application to open a bookstore
