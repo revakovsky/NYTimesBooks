@@ -21,7 +21,7 @@ import com.revakovsky.thenytimesbooks.presentation.widgets.TextTitle
 fun LayoutForMediumAndLargerScreens(
     book: BookUi,
     shouldRefreshImages: Boolean,
-    onBookItemClick: (bookTitle: String) -> Unit,
+    onButtonBuyClick: (bookTitle: String) -> Unit,
 ) {
 
     Column(
@@ -68,7 +68,7 @@ fun LayoutForMediumAndLargerScreens(
 
                 AppButton(
                     modifier = Modifier.padding(top = dimens.large),
-                    onButtonClick = { onBookItemClick(book.bookTitle) }
+                    onButtonClick = { onButtonBuyClick(book.bookTitle) }
                 )
 
             }

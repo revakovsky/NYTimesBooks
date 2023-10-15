@@ -49,7 +49,7 @@ fun AppNavGraph() {
 
             BooksScreen(
                 categoryName = navBackStackEntry.arguments?.getString(CATEGORY_NAME) ?: "",
-                navigateToOtherScreen = { linkToTheStore ->
+                navigateToStore = { linkToTheStore ->
                     if (linkToTheStore.isNotEmpty()) {
                         navController.navigate(Screens.StoreScreen.passLinkToTheStore(linkToTheStore))
                     } else navController.popBackStack()

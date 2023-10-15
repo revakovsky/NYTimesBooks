@@ -27,6 +27,11 @@ val Typography = Typography(
         textAlign = TextAlign.Center,
         lineHeight = 24.sp,
     ),
+    bodyLarge = TextStyle(
+        fontFamily = abhayaLibre,
+        fontWeight = FontWeight.W800,
+        fontSize = 24.sp,
+    ),
     bodyMedium = TextStyle(
         fontFamily = abhayaLibre,
         fontWeight = FontWeight.W800,

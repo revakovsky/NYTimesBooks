@@ -1,6 +1,5 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.books
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,12 +26,14 @@ import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
 import com.revakovsky.thenytimesbooks.presentation.widgets.SwipeRefreshContainer
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BooksScreen(
     categoryName: String,
-    navigateToOtherScreen: (linkToTheStore: String) -> Unit,
+    navigateToStore: (linkToTheStore: String) -> Unit,
     viewModel: BooksViewModel,
 ) {
     val context = LocalContext.current
@@ -42,6 +43,7 @@ fun BooksScreen(
     }
 
     val books by viewModel.books.collectAsStateWithLifecycle(emptyList())
+    val stores by viewModel.stores.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle("")
     val hasInternetConnection by viewModel.hasConnection.collectAsState(null)
@@ -49,24 +51,40 @@ fun BooksScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
     val windowType = WindowType.getWindowType()
+    var showTheStoresDialog by remember { mutableStateOf(false) }
 
     var shouldRefreshBookImages by remember { mutableStateOf(false) }
+    var chosenBookTitle by remember { mutableStateOf("") }
 
 
     if (isLoading) LoadingProgressDialog()
 
-    LaunchedEffect(key1 = errorMessage, key2 = hasInternetConnection) {
+    LaunchedEffect(
+        key1 = errorMessage,
+        key2 = hasInternetConnection,
+        key3 = chosenBookTitle
+    ) {
+
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
 
-        if (hasInternetConnection == false) snackBarHostState.showSnackbar(
-            context.getString(R.string.your_device_is_offline)
-        )
+        if (hasInternetConnection == false) {
+            snackBarHostState.showSnackbar(context.getString(R.string.your_device_is_offline))
+            chosenBookTitle = ""
+        }
 
         if (hasInternetConnection == true) snackBarHostState.showSnackbar(
             context.getString(R.string.you_are_online_again)
         )
 
+        if (hasInternetConnection == null && chosenBookTitle.isNotEmpty()) {
+            viewModel.getStoresByTheBookTitle(chosenBookTitle)
+        }
+
         viewModel.resetState()
+    }
+
+    LaunchedEffect(key1 = stores) {
+        if (stores.isNotEmpty()) showTheStoresDialog = true
     }
 
     Scaffold(
@@ -78,7 +96,7 @@ fun BooksScreen(
             ToolBar(
                 titleText = categoryName,
                 scrollBehavior = scrollBehavior,
-                onNavigationIconClick = { navigateToOtherScreen("") }
+                onNavigationIconClick = { navigateToStore("") }
             )
         }
     ) { paddingValues ->
@@ -106,11 +124,11 @@ fun BooksScreen(
                             book = book,
                             windowType = windowType,
                             shouldRefreshImages = shouldRefreshBookImages,
-                            onBookItemClick = { bookTitle ->
-
-                                Log.d("TAG_Max", "BooksScreen.kt: bookTitle = $bookTitle")
-                                Log.d("TAG_Max", "")
-
+                            onButtonBuyClick = { bookTitle ->
+                                viewModel.apply {
+                                    checkTheInternet()
+                                    chosenBookTitle = bookTitle
+                                }
                             }
                         )
 
@@ -123,6 +141,21 @@ fun BooksScreen(
             )
 
         }
+
+    }
+
+    if (showTheStoresDialog) {
+
+        ShowStoresDialog(
+            stores = stores,
+            openChosenStore = { url ->
+                navigateToStore(URLEncoder.encode(url, StandardCharsets.UTF_8.toString()))
+            },
+            onDismiss = {
+                showTheStoresDialog = false
+                viewModel.refreshStoresList()
+            }
+        )
 
     }
 

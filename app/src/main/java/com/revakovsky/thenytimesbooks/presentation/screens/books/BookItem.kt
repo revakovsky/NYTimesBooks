@@ -17,7 +17,7 @@ fun BookItem(
     book: BookUi,
     windowType: WindowType.Type,
     shouldRefreshImages: Boolean,
-    onBookItemClick: (bookTitle: String) -> Unit,
+    onButtonBuyClick: (bookTitle: String) -> Unit,
 ) {
 
     Column(
@@ -29,9 +29,9 @@ fun BookItem(
     ) {
 
         if (windowType == WindowType.Type.Small) {
-            LayoutForSmallScreen(book, shouldRefreshImages, onBookItemClick)
+            LayoutForSmallScreen(book, shouldRefreshImages, onButtonBuyClick)
         } else {
-            LayoutForMediumAndLargerScreens(book, shouldRefreshImages, onBookItemClick)
+            LayoutForMediumAndLargerScreens(book, shouldRefreshImages, onButtonBuyClick)
         }
 
     }
