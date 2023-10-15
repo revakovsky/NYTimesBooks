@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3b9d0953140f648628ea9db19f0d0888",
+    "identityHash": "c8f717f72a22a391cdb59cb0879e566e",
     "entities": [
       {
         "tableName": "CategoryEntity",
@@ -100,12 +100,12 @@
       },
       {
         "tableName": "StoreEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `storeName` TEXT NOT NULL, `bookTitle` TEXT NOT NULL, `url` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `storeName` TEXT NOT NULL, `id` INTEGER NOT NULL, `bookTitle` TEXT NOT NULL, PRIMARY KEY(`url`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -115,22 +115,22 @@
             "notNull": true
           },
           {
-            "fieldPath": "bookTitle",
-            "columnName": "bookTitle",
-            "affinity": "TEXT",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "url",
-            "columnName": "url",
+            "fieldPath": "bookTitle",
+            "columnName": "bookTitle",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "url"
           ]
         },
         "indices": [],
@@ -140,7 +140,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b9d0953140f648628ea9db19f0d0888')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c8f717f72a22a391cdb59cb0879e566e')"
     ]
   }
 }

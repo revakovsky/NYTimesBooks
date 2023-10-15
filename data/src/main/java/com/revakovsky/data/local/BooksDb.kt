@@ -8,7 +8,7 @@ import com.revakovsky.data.local.entities.StoreEntity
 
 @Database(
     entities = [CategoryEntity::class, BookEntity::class, StoreEntity::class],
-    version = 2,
+    version = 1,
 )
 internal abstract class BooksDb : RoomDatabase() {
 

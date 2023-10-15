@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 internal data class StoreEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val storeName: String,
-    val bookTitle: String,
+    @PrimaryKey(autoGenerate = false)
     val url: String,
+    val storeName: String,
+    val id: Int = 0,
+    val bookTitle: String,
 )
