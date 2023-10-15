@@ -5,6 +5,7 @@
     <string name="published_date">Published date: %1$s</string>
     <string name="updated">Updated: %1$s</string>
     <string name="your_device_is_offline">Your device is offline. Please, check the Internet connection</string>
+    <string name="you_are_online_again">You are online again</string>
     <string name="book_author">Author: %1$s</string>
     <string name="book_rank">Rank: %1$s</string>
     <string name="book_image">Book image</string>

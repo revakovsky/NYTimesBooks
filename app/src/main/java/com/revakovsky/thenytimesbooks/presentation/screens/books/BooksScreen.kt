@@ -12,13 +12,16 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.core.WindowType
 import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.LoadingProgressDialog
@@ -32,6 +35,7 @@ fun BooksScreen(
     navigateToOtherScreen: (linkToTheStore: String) -> Unit,
     viewModel: BooksViewModel,
 ) {
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getBooksFromCategory(categoryName, shouldUpdateBooksInfo = false)
@@ -40,6 +44,7 @@ fun BooksScreen(
     val books by viewModel.books.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle("")
+    val hasInternetConnection by viewModel.hasConnection.collectAsState(null)
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -50,8 +55,17 @@ fun BooksScreen(
 
     if (isLoading) LoadingProgressDialog()
 
-    LaunchedEffect(key1 = errorMessage) {
+    LaunchedEffect(key1 = errorMessage, key2 = hasInternetConnection) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
+
+        if (hasInternetConnection == false) snackBarHostState.showSnackbar(
+            context.getString(R.string.your_device_is_offline)
+        )
+
+        if (hasInternetConnection == true) snackBarHostState.showSnackbar(
+            context.getString(R.string.you_are_online_again)
+        )
+
         viewModel.resetState()
     }
 
@@ -107,7 +121,7 @@ fun BooksScreen(
                     }
                 }
             )
-            
+
         }
 
     }

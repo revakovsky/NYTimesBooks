@@ -16,17 +16,34 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     protected val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    protected val _errorMessage = MutableStateFlow("")
+    private val _errorMessage = MutableStateFlow("")
     val errorMessage = _errorMessage.asStateFlow()
+
+    private val _hasConnection = MutableStateFlow<Boolean?>(null)
+    val hasConnection = _hasConnection.asStateFlow()
 
 
     protected fun checkConnectivity(connectivityObserver: ConnectivityObserver) {
-        if (!connectivityObserver.hasConnection()) _errorMessage.value =
-            "ERROR: base viewModel - create text for error"
+        if (connectivityObserver.hasConnection()) _hasConnection.value = isInternetAvailable
+        else {
+            isInternetAvailable = false
+            _hasConnection.value = isInternetAvailable
+        }
+
         connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
             when (connectivityStatus) {
-                ConnectivityObserver.Status.Available -> Unit
-                else -> _errorMessage.value = "ERROR: base viewModel - create text for error"
+
+                ConnectivityObserver.Status.Available -> {
+                    if (isInternetAvailable == false) {
+                        _hasConnection.value = true
+                        isInternetAvailable = null
+                    }
+                }
+
+                else -> {
+                    isInternetAvailable = false
+                    _hasConnection.value = isInternetAvailable
+                }
             }
         }.launchIn(viewModelScope)
     }
@@ -53,7 +70,13 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     }
 
     open fun resetState() {
+        _hasConnection.value = null
         _errorMessage.value = ""
+    }
+
+
+    companion object {
+        var isInternetAvailable: Boolean? = null
     }
 
 }

@@ -33,10 +33,12 @@ fun CategoriesScreen(
     openBooksScreen: (categoryName: String) -> Unit,
     viewModel: CategoryViewModel,
 ) {
+    val context = LocalContext.current
 
     val categories by viewModel.categories.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(false)
     val errorMessage by viewModel.errorMessage.collectAsState("")
+    val hasInternetConnection by viewModel.hasConnection.collectAsState(null)
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -44,8 +46,18 @@ fun CategoriesScreen(
 
     if (isLoading) LoadingProgressDialog()
 
-    LaunchedEffect(key1 = errorMessage) {
+    LaunchedEffect(key1 = errorMessage, key2 = hasInternetConnection) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
+
+        if (hasInternetConnection == false) snackBarHostState.showSnackbar(
+            context.getString(R.string.your_device_is_offline)
+        )
+
+        if (hasInternetConnection == true) {
+            snackBarHostState.showSnackbar(context.getString(R.string.you_are_online_again))
+            viewModel.getCategories(shouldUpdateCategories = false)
+        }
+
         viewModel.resetState()
     }
 
@@ -93,7 +105,6 @@ fun CategoriesScreen(
 
     }
 
-    val context = LocalContext.current
     BackHandler { (context as Activity).finish() }
 
 }
