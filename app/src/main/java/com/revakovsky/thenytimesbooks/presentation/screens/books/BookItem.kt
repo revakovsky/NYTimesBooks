@@ -19,6 +19,7 @@ fun BookItem(
     modifier: Modifier = Modifier,
     book: BookUi,
     windowType: WindowType.Type,
+    shouldRefreshImages: Boolean,
     onBookItemClick: (bookTitle: String) -> Unit,
 ) {
 
@@ -31,9 +32,9 @@ fun BookItem(
     ) {
 
         if (windowType == WindowType.Type.Small) {
-            LayoutForSmallScreen(book, onBookItemClick)
+            LayoutForSmallScreen(book, shouldRefreshImages, onBookItemClick)
         } else {
-            LayoutForMediumAndLargerScreens(book, onBookItemClick)
+            LayoutForMediumAndLargerScreens(book, shouldRefreshImages, onBookItemClick)
         }
 
     }
@@ -55,6 +56,7 @@ fun PreviewBookItem() {
                     publisher = "Revakovskyi publisher compane Tanaya and Maxim"
                 ),
                 windowType = WindowType.Type.Small,
+                shouldRefreshImages = false,
                 onBookItemClick = { bookName -> }
             )
         }

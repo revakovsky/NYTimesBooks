@@ -13,7 +13,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +44,8 @@ fun BooksScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
     val windowType = WindowType.getWindowType()
+
+    var shouldRefreshBookImages by remember { mutableStateOf(false) }
 
 
     if (isLoading) LoadingProgressDialog()
@@ -72,6 +76,7 @@ fun BooksScreen(
                     categoryName,
                     shouldUpdateBooksInfo = true
                 )
+                shouldRefreshBookImages = true
             }
         ) {
 
@@ -86,6 +91,7 @@ fun BooksScreen(
                         BookItem(
                             book = book,
                             windowType = windowType,
+                            shouldRefreshImages = shouldRefreshBookImages,
                             onBookItemClick = { bookTitle ->
 
                                 Log.d("TAG_Max", "BooksScreen.kt: bookTitle = $bookTitle")
@@ -101,7 +107,7 @@ fun BooksScreen(
                     }
                 }
             )
-
+            
         }
 
     }
