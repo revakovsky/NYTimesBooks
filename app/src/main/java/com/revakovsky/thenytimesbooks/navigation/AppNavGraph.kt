@@ -65,6 +65,7 @@ fun AppNavGraph() {
 
             StoreScreen(
                 url = navBackStackEntry.arguments?.getString(LINK_TO_THE_STORE) ?: "",
+                backToBooksScreen = { navController.popBackStack() }
             )
         }
 
