@@ -11,7 +11,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun SwipeRefreshContainer(
-    isLoading: Boolean,
+    isLoading: Boolean = false,
     onRefresh: () -> Unit,
     content: @Composable () -> Unit,
 ) {
