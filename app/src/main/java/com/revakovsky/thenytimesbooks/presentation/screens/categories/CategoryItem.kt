@@ -27,21 +27,21 @@ fun CategoryItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(dimens.medium)
             .clickable { onCategoryClick(category.categoryName) },
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
 
-        TextTitle(text = category.categoryName)
-
         Column(
-            modifier = Modifier.padding(top = dimens.extraSmall),
+            modifier = Modifier.padding(dimens.medium),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
 
+            TextTitle(text = category.categoryName)
+
             TextRegular(
+                modifier = Modifier.padding(top = dimens.extraSmall),
                 text = stringResource(R.string.published_date, category.publishedDate),
             )
 
