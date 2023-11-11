@@ -29,7 +29,7 @@ ver_Material                = "1.10.0"
 
 # Compose
 ver_ActivityCompose         = "1.8.0"
-ver_ComposeBom              = "2023.10.00"
+ver_ComposeBom              = "2023.10.01"
 ver_NavigationCompose       = "2.7.4"
 
 # Tests
@@ -56,8 +56,8 @@ ver_OkHttpBom               = "4.11.0"
 ver_Retrofit2               = "2.9.0"
 ver_Gson                    = "2.10.1"
 
-# Swipe Refresh
-ver_SwipeRefresh            = "0.24.13-rc"
+# Pull Refresh
+ver_PullRefresh             = "1.5.4"
 
 # Coil
 ver_Coil                    = "2.4.0"
@@ -131,8 +131,8 @@ network-retrofit2          = { module = "com.squareup.retrofit2:retrofit", versi
 network-converterGson      = { module = "com.squareup.retrofit2:converter-gson", version.ref = "ver_Retrofit2" }
 network-gson               = { module = "com.google.code.gson:gson", version.ref = "ver_Gson" }
 
-# Swipe Refresh
-swipeRefresh               = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "ver_SwipeRefresh" }
+# Pull Refresh
+pullRefresh                = { group = "androidx.compose.material", name = "material", version.ref = "ver_PullRefresh" }
 
 # Coil
 coil-compose               = { group = "io.coil-kt", name = "coil-compose", version.ref = "ver_Coil" }

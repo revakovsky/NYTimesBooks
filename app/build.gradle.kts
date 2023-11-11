@@ -80,8 +80,8 @@ dependencies {
     implementation(libs.dagger2)
     ksp(libs.dagger2.compiler)
 
-    // Swipe Refresh
-    implementation(libs.swipeRefresh)
+    // Pull Refresh
+    implementation(libs.pullRefresh)
 
     // Coil
     implementation(libs.coil.compose)
