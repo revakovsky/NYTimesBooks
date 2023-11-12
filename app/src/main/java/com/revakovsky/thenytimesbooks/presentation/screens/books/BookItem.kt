@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ fun BookItem(
     book: BookUi,
     windowType: WindowType.Type,
     shouldRefreshImages: Boolean,
+    showDivider: Boolean,
     onButtonBuyClick: (bookTitle: String) -> Unit,
 ) {
 
@@ -35,5 +37,9 @@ fun BookItem(
         }
 
     }
+
+    if (showDivider) Divider(
+        modifier = Modifier.padding(horizontal = dimens.medium)
+    )
 
 }

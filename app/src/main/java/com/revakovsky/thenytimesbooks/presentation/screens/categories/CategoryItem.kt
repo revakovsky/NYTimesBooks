@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import com.revakovsky.thenytimesbooks.presentation.widgets.TextTitle
 @Composable
 fun CategoryItem(
     category: CategoryUi,
+    showDivider: Boolean,
     onCategoryClick: (categoryName: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -52,6 +54,10 @@ fun CategoryItem(
             )
 
         }
+
+        if (showDivider) Divider(
+            modifier = Modifier.padding(horizontal = dimens.medium)
+        )
 
     }
 

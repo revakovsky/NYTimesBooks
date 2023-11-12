@@ -11,7 +11,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
-import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -100,11 +98,8 @@ fun CategoriesScreen(
 
                         CategoryItem(
                             category,
+                            showDivider = itemIndex != categories.lastIndex,
                             onCategoryClick = { categoryName -> openBooksScreen(categoryName) }
-                        )
-
-                        if (itemIndex < categories.size) Divider(
-                            modifier = Modifier.padding(horizontal = dimens.medium)
                         )
 
                     }

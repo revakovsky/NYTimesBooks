@@ -9,7 +9,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,7 +31,6 @@ import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
 import com.revakovsky.thenytimesbooks.core.WindowType
 import com.revakovsky.thenytimesbooks.presentation.screens.books.storesDialog.ShowStoresDialog
-import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -45,10 +43,6 @@ fun BooksScreen(
     viewModel: BooksViewModel,
 ) {
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = true) {
-        viewModel.getBooksFromCategory(categoryName, shouldUpdateBooksInfo = false)
-    }
 
     val books by viewModel.books.collectAsStateWithLifecycle(emptyList())
     val stores by viewModel.stores.collectAsStateWithLifecycle(emptyList())
@@ -74,6 +68,10 @@ fun BooksScreen(
             shouldRefreshBookImages = true
         },
     )
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getBooksFromCategory(categoryName, shouldUpdateBooksInfo = false)
+    }
 
     LaunchedEffect(
         key1 = errorMessage,
@@ -136,16 +134,13 @@ fun BooksScreen(
                             book = book,
                             windowType = windowType,
                             shouldRefreshImages = shouldRefreshBookImages,
+                            showDivider = itemIndex != books.lastIndex,
                             onButtonBuyClick = { bookTitle ->
                                 viewModel.apply {
                                     checkTheInternet()
                                     chosenBookTitle = bookTitle
                                 }
                             }
-                        )
-
-                        if (itemIndex < books.size) Divider(
-                            modifier = Modifier.padding(horizontal = dimens.medium)
                         )
 
                     }
