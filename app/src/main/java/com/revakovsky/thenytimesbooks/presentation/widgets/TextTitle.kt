@@ -17,14 +17,15 @@ fun TextTitle(
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textAlign: TextAlign = TextAlign.Start,
-    singleLine: Boolean = true,
+    singleLine: Boolean = false,
 ) {
 
     Text(
         modifier = modifier.fillMaxWidth(),
         text = text,
-        style = style.copy(textAlign = textAlign),
+        style = style,
         color = textColor,
+        textAlign = textAlign,
         maxLines = if (singleLine) 1 else 10,
         overflow = TextOverflow.Ellipsis
     )

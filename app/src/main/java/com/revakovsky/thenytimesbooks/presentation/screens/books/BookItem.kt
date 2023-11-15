@@ -14,16 +14,15 @@ import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 
 @Composable
 fun BookItem(
-    modifier: Modifier = Modifier,
     book: BookUi,
-    windowType: WindowType.Type,
     shouldRefreshImages: Boolean,
     showDivider: Boolean,
     onButtonBuyClick: (bookTitle: String) -> Unit,
 ) {
+    val windowType = WindowType.getWindowType()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(dimens.medium),
         verticalArrangement = Arrangement.Top,

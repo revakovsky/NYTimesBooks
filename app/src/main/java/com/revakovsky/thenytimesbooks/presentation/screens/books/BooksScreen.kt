@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.revakovsky.thenytimesbooks.R
 import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
-import com.revakovsky.thenytimesbooks.core.WindowType
 import com.revakovsky.thenytimesbooks.presentation.screens.books.storesDialog.ShowStoresDialog
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 import java.net.URLEncoder
@@ -52,20 +51,21 @@ fun BooksScreen(
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
-    val windowType = WindowType.getWindowType()
     var showTheStoresDialog by remember { mutableStateOf(false) }
 
-    var shouldRefreshBookImages by remember { mutableStateOf(false) }
+    var shouldRefreshBookImage by remember { mutableStateOf(false) }
     var chosenBookTitle by remember { mutableStateOf("") }
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isLoading,
         onRefresh = {
-            viewModel.apply {
-                refreshStoresList()
-                getBooksFromCategory(categoryName, shouldUpdateBooksInfo = true)
+            if (internetStatus == ConnectivityObserver.Status.Available) {
+                viewModel.apply {
+                    refreshStoresList()
+                    getBooksFromCategory(categoryName, shouldUpdateBooksInfo = true)
+                }
+                shouldRefreshBookImage = true
             }
-            shouldRefreshBookImages = true
         },
     )
 
@@ -88,7 +88,7 @@ fun BooksScreen(
         if (internetStatus == ConnectivityObserver.Status.Appeared) {
             snackBarHostState.showSnackbar(context.getString(R.string.you_are_online_again))
             viewModel.getBooksFromCategory(categoryName, shouldUpdateBooksInfo = false)
-            shouldRefreshBookImages = true
+            shouldRefreshBookImage = true
         }
 
         if (internetStatus == ConnectivityObserver.Status.Available && chosenBookTitle.isNotEmpty()) {
@@ -132,8 +132,7 @@ fun BooksScreen(
 
                         BookItem(
                             book = book,
-                            windowType = windowType,
-                            shouldRefreshImages = shouldRefreshBookImages,
+                            shouldRefreshImages = shouldRefreshBookImage,
                             showDivider = itemIndex != books.lastIndex,
                             onButtonBuyClick = { bookTitle ->
                                 viewModel.apply {

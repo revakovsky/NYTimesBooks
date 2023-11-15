@@ -14,16 +14,17 @@ import com.revakovsky.thenytimesbooks.presentation.widgets.TextTitle
 fun DialogItem(
     store: StoreUi,
     showDivider: Boolean,
-    onItemClick: () -> Unit,
+    onStoreItemClick: () -> Unit,
 ) {
 
     Box(
-        modifier = Modifier.clickable { onItemClick() }
+        modifier = Modifier.clickable { onStoreItemClick() }
     ) {
 
         TextTitle(
             modifier = Modifier.padding(dimens.medium),
-            text = store.storeName
+            text = store.storeName,
+            singleLine = true
         )
 
     }
