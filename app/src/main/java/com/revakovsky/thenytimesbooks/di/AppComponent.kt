@@ -2,7 +2,8 @@ package com.revakovsky.thenytimesbooks.di
 
 import android.app.Application
 import com.revakovsky.data.di.DataDependenciesProvider
-import com.revakovsky.thenytimesbooks.MainActivity
+import com.revakovsky.thenytimesbooks.presentation.ConnectivityViewModel
+import com.revakovsky.thenytimesbooks.presentation.MainActivity
 import com.revakovsky.thenytimesbooks.presentation.screens.books.BooksViewModel
 import com.revakovsky.thenytimesbooks.presentation.screens.categories.CategoryViewModel
 import dagger.BindsInstance
@@ -18,6 +19,7 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
 
+    fun getConnectivityViewModel(): ConnectivityViewModel
     fun getCategoryViewModel(): CategoryViewModel
     fun getBooksViewModel(): BooksViewModel
 

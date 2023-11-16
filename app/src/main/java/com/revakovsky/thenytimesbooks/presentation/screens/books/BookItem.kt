@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,15 +14,15 @@ import com.revakovsky.thenytimesbooks.presentation.ui.theme.dimens
 
 @Composable
 fun BookItem(
-    modifier: Modifier = Modifier,
     book: BookUi,
-    windowType: WindowType.Type,
     shouldRefreshImages: Boolean,
+    showDivider: Boolean,
     onButtonBuyClick: (bookTitle: String) -> Unit,
 ) {
+    val windowType = WindowType.getWindowType()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(dimens.medium),
         verticalArrangement = Arrangement.Top,
@@ -35,5 +36,9 @@ fun BookItem(
         }
 
     }
+
+    if (showDivider) Divider(
+        modifier = Modifier.padding(horizontal = dimens.medium)
+    )
 
 }

@@ -21,8 +21,9 @@ fun TextRegular(
     Text(
         modifier = modifier,
         text = text,
-        style = style.copy(textAlign = textAlign),
+        style = style,
         color = color,
+        textAlign = textAlign,
         overflow = TextOverflow.Ellipsis
     )
 

@@ -29,7 +29,7 @@ fun StylableText(
 private fun makeFirstWordBold(text: String): AnnotatedString {
     return buildAnnotatedString {
         append(text)
-        val endIndex = text.indexOf(":")
+        val endIndex = text.takeIf { it.contains(":") }?.indexOf(":") ?: 0
         addStyle(
             style = SpanStyle(fontWeight = FontWeight.Bold),
             start = 0,

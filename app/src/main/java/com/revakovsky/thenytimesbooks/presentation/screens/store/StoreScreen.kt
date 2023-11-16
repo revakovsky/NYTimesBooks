@@ -5,13 +5,24 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -22,10 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.revakovsky.thenytimesbooks.presentation.widgets.SwipeRefreshContainer
+import com.revakovsky.thenytimesbooks.core.InternetStatus
+import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 
+@SuppressLint("SetJavaScriptEnabled")
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun StoreScreen(
     url: String,
@@ -33,13 +48,19 @@ fun StoreScreen(
 ) {
     val context = LocalContext.current
 
-    var isWebPageLoading by remember { mutableStateOf(true) }
+    var isWebPageLoading by remember { mutableStateOf(false) }
     var webPageLoadingProgress by remember { mutableIntStateOf(0) }
 
-    val webView = remember {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val snackBarHostState = remember { SnackbarHostState() }
 
+    val webView = remember {
         WebView(context).apply {
-            setUpWebView(this)
+            settings.apply {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+                useWideViewPort = true
+            }
 
             webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -48,22 +69,48 @@ fun StoreScreen(
                     isWebPageLoading = newProgress != 100
                 }
             }
-
             webViewClient = object : WebViewClient() {}
         }
-
     }
 
-    LaunchedEffect(key1 = true) { webView.loadUrl(url) }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = false,
+        onRefresh = {
+            if (InternetStatus.isOnline()) webView.reload()
+            else InternetStatus.showOfflineMessage()
+        },
+    )
 
-    SwipeRefreshContainer(
-        onRefresh = { webView.reload() }
-    ) {
+    LaunchedEffect(key1 = true) {
+        if (InternetStatus.isOnline()) webView.loadUrl(url)
+        else InternetStatus.showOfflineMessage()
+    }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(snackBarHostState) },
+        topBar = {
+            ToolBar(
+                scrollBehavior = scrollBehavior,
+                onNavigationIconClick = {
+                    when (webView.canGoBack()) {
+                        true -> webView.goBack()
+                        false -> backToBooksScreen()
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .pullRefresh(pullRefreshState)
                 .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
         ) {
 
             AndroidView(
@@ -84,6 +131,14 @@ fun StoreScreen(
 
             }
 
+            PullRefreshIndicator(
+                refreshing = false,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter),
+                backgroundColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
+
         }
 
     }
@@ -99,15 +154,4 @@ fun StoreScreen(
         onDispose { webView.destroy() }
     }
 
-}
-
-
-@SuppressLint("SetJavaScriptEnabled")
-private fun setUpWebView(webView: WebView) {
-    webView.settings.apply {
-        javaScriptEnabled = true
-        domStorageEnabled = true
-        useWideViewPort = true
-        userAgentString.replace("wv", "")
-    }
 }

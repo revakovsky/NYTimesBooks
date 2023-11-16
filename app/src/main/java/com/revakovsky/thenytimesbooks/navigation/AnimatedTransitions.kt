@@ -13,8 +13,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-const val DEFAULT_ANIMATION_DURATION = 600
-const val FADE_DURATION = 600
+private const val DEFAULT_ANIMATION_DURATION = 600
+private const val FADE_DURATION = 600
 
 fun NavGraphBuilder.composableWithAnimatedTransition(
     route: String,
@@ -43,7 +43,7 @@ fun NavGraphBuilder.composableWithAnimatedTransition(
 }
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromRightToLeft() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromRightToLeft() =
     slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Start,
         animationSpec = tween(
@@ -58,7 +58,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromRightToLeft() =
     )
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromRightToLeft() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromRightToLeft() =
     slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Start,
         animationSpec = tween(
@@ -73,7 +73,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromRightToLeft() =
     )
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterFromLeftToRight() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterFromLeftToRight() =
     slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.End,
         animationSpec = tween(
@@ -88,7 +88,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterFromLeftToRight() 
     )
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitFromLeftToRight() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitFromLeftToRight() =
     slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.End,
         animationSpec = tween(
@@ -103,7 +103,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitFromLeftToRight() =
     )
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromBottomToTop() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromBottomToTop() =
     slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Companion.Up,
         animationSpec = tween(
@@ -118,7 +118,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromBottomToTop() =
     )
 
 
-fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromTopToBottom() =
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromTopToBottom() =
     slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Companion.Down,
         animationSpec = tween(

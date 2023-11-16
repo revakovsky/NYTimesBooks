@@ -7,7 +7,7 @@ import com.revakovsky.thenytimesbooks.presentation.models.BookUi
 import com.revakovsky.thenytimesbooks.presentation.models.CategoryUi
 import com.revakovsky.thenytimesbooks.presentation.models.StoreUi
 
-internal fun Category.mapToCategoryUi(): CategoryUi {
+fun Category.mapToCategoryUi(): CategoryUi {
     return CategoryUi(
         categoryName = this.categoryName,
         howOftenIsItUpdated = this.howOftenIsItUpdated,
@@ -15,7 +15,7 @@ internal fun Category.mapToCategoryUi(): CategoryUi {
     )
 }
 
-internal fun Book.mapToBookUi(): BookUi {
+fun Book.mapToBookUi(): BookUi {
     return BookUi(
         id = this.id,
         bookTitle = this.bookTitle,
@@ -27,7 +27,7 @@ internal fun Book.mapToBookUi(): BookUi {
     )
 }
 
-internal fun Store.mapToStoreUi(): StoreUi {
+fun Store.mapToStoreUi(): StoreUi {
     return StoreUi(
         storeName = this.storeName,
         url = this.url

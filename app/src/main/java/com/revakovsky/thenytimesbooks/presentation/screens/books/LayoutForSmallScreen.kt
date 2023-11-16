@@ -1,6 +1,5 @@
 package com.revakovsky.thenytimesbooks.presentation.screens.books
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,22 +25,16 @@ fun LayoutForSmallScreen(
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         CoilImage(url = book.image, shouldRefreshImages)
 
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
 
             TextTitle(
                 modifier = Modifier.padding(top = dimens.medium),
                 text = book.bookTitle,
-                singleLine = false
             )
 
             StylableText(
