@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.revakovsky.thenytimesbooks.R
-import com.revakovsky.thenytimesbooks.core.ConnectivityObserver
+import com.revakovsky.thenytimesbooks.core.InternetStatus
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -43,25 +43,23 @@ fun CategoriesScreen(
     val categories by viewModel.categories.collectAsStateWithLifecycle(emptyList())
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val errorMessage by viewModel.errorMessage.collectAsState("")
-    val internetStatus by viewModel.internetStatus.collectAsState(null)
+    val internetStatus = InternetStatus.current
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val snackBarHostState = remember { SnackbarHostState() }
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isLoading,
-        onRefresh = { viewModel.getCategories(shouldUpdateCategories = true) },
+        onRefresh = {
+            if (InternetStatus.isOnline()) viewModel.getCategories(shouldUpdateCategories = true)
+            else InternetStatus.showOfflineMessage()
+        },
     )
 
     LaunchedEffect(key1 = errorMessage, key2 = internetStatus) {
         if (errorMessage.isNotEmpty()) snackBarHostState.showSnackbar(errorMessage)
 
-        if (internetStatus == ConnectivityObserver.Status.Unavailable) snackBarHostState.showSnackbar(
-            context.getString(R.string.your_device_is_offline)
-        )
-
-        if (internetStatus == ConnectivityObserver.Status.Appeared) {
-            snackBarHostState.showSnackbar(context.getString(R.string.you_are_online_again))
+        if (internetStatus == InternetStatus.Status.Appeared) {
             viewModel.getCategories(shouldUpdateCategories = false)
         }
 

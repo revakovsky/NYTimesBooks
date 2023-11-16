@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.revakovsky.thenytimesbooks.core
 
 import androidx.compose.runtime.Composable

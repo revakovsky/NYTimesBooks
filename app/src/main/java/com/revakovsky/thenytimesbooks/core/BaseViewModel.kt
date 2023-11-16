@@ -1,12 +1,9 @@
 package com.revakovsky.thenytimesbooks.core
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.revakovsky.domain.util.DataResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -15,36 +12,6 @@ abstract class BaseViewModel : ViewModel() {
 
     private val _errorMessage = MutableStateFlow("")
     val errorMessage = _errorMessage.asStateFlow()
-
-    private val _internetStatus = MutableStateFlow(ConnectivityObserver.Status.Undefined)
-    val internetStatus = _internetStatus.asStateFlow()
-
-
-    protected fun checkConnectivity(connectivityObserver: ConnectivityObserver) {
-        status = if (connectivityObserver.hasConnection()) ConnectivityObserver.Status.Available
-        else ConnectivityObserver.Status.Unavailable
-
-        _internetStatus.value = status
-
-        connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
-            when (connectivityStatus) {
-
-                ConnectivityObserver.Status.Available -> {
-                    if (status == ConnectivityObserver.Status.Unavailable) {
-                        _internetStatus.value = ConnectivityObserver.Status.Appeared
-                    } else {
-                        _internetStatus.value = ConnectivityObserver.Status.Available
-                    }
-                    status = ConnectivityObserver.Status.Undefined
-                }
-
-                else -> {
-                    status = ConnectivityObserver.Status.Unavailable
-                    _internetStatus.value = status
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
 
     protected fun <T, R> processDataResult(
         dataResult: DataResult<List<T>>,
@@ -70,13 +37,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     open fun resetState() {
-        _internetStatus.value = ConnectivityObserver.Status.Undefined
         _errorMessage.value = ""
-    }
-
-
-    companion object {
-        var status: ConnectivityObserver.Status = ConnectivityObserver.Status.Undefined
     }
 
 }

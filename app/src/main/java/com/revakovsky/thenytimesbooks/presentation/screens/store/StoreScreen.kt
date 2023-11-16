@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.revakovsky.thenytimesbooks.core.InternetStatus
 import com.revakovsky.thenytimesbooks.presentation.widgets.ToolBar
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -74,10 +75,16 @@ fun StoreScreen(
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = false,
-        onRefresh = { webView.reload() },
+        onRefresh = {
+            if (InternetStatus.isOnline()) webView.reload()
+            else InternetStatus.showOfflineMessage()
+        },
     )
 
-    LaunchedEffect(key1 = true) { webView.loadUrl(url) }
+    LaunchedEffect(key1 = true) {
+        if (InternetStatus.isOnline()) webView.loadUrl(url)
+        else InternetStatus.showOfflineMessage()
+    }
 
     Scaffold(
         modifier = Modifier

@@ -48,7 +48,7 @@ connection status
 - [Coroutines](https://developer.android.com/kotlin/coroutines)
 - [Retrofit2](https://square.github.io/retrofit/) + [OkHttp](https://square.github.io/okhttp/)
 - [Room](https://developer.android.com/jetpack/androidx/releases/room) (1 to n relationship)
-- [Swipe Refresh](https://google.github.io/accompanist/swiperefresh/)
+- [Pull Refresh](https://developer.android.com/reference/kotlin/androidx/compose/material/pullrefresh/package-summary)
 - [Coil](https://coil-kt.github.io/coil/)
 - The Internet connectivity check
 - Base viewModel
